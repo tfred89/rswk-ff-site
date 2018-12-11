@@ -25,7 +25,7 @@ SECRET_KEY = 'f4jyt=o4z*krstn$4@4*amvfu6_21gyr87b36cwhq7+7oi^qg4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.herokuapp.com']
+ALLOWED_HOSTS = ['.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
@@ -77,11 +77,14 @@ WSGI_APPLICATION = 'RSWKsite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'rswkff',
+        'USER':'postgres',
+        'PASSWORD':'nosnos8*',
+        'HOST':'localhost',
+        'PORT':'5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators

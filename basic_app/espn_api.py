@@ -2,6 +2,7 @@ import requests
 from espnff import League
 import pandas as pd
 from .rswk_past import past_seasons
+from basic_app.models import CurrentSeason, PastSeasons
 
 scores = {}
 frame = []
@@ -59,33 +60,39 @@ for key in scores:
                    match['teams'][0]['score'],
                    away])
 
-df = pd.DataFrame(frame, columns=['Week', 'HomeAbbrev', 'Home Location', 'Home Nickname', 'H Opponent', 'HomeScore', 'H Opponent Score',
-                                  'H Result','AwayAbbrev', 'Away Location', 'Away Nickname', 'A Opponent', 'AwayScore', 'A Opponent Score', 'A Result'])
+# df = pd.DataFrame(frame, columns=['Week', 'HomeAbbrev', 'Home Location', 'Home Nickname', 'H Opponent', 'HomeScore', 'H Opponent Score',
+#                                   'H Result','AwayAbbrev', 'Away Location', 'Away Nickname', 'A Opponent', 'AwayScore', 'A Opponent Score', 'A Result'])
 
-df['Home Name'] = df['Home Location'] + df['Home Nickname']
-df['Away Name'] = df['Away Location'] + df['Away Nickname']
 
-df = (df[['Week', 'HomeAbbrev', 'Home Name', 'HomeScore', 'H Result', 'H Opponent', 'H Opponent Score']].rename(columns={'HomeAbbrev': 'Abbrev', 'HomeScore': 'Score', 'Home Name': 'Team Name', 'H Result':'Result', 'H Opponent':'Opponent', 'H Opponent Score':'Points against'}).append(df[['Week', 'AwayAbbrev', 'Away Name',
-'AwayScore', 'A Result', 'A Opponent', 'A Opponent Score']].rename(columns={'AwayAbbrev': 'Abbrev', 'AwayScore': 'Score', 'Away Name':'Team Name', 'A Result':'Result', 'A Opponent':'Opponent', 'A Opponent Score':'Points against'})))
+
+clist = list(CurrentSeason.objects.values_list('game_week', 'team_name', 'team_abbrev', 'poinst_for',
+'opponent', 'points_against', 'result'))
+cols = ['Week', 'Team Name', 'Abbrev', 'Score', 'Opponent', 'Points against', 'Result']
+df = pd.DataFrame.from_records(clist, columns=cols)
+
+# df['Home Name'] = df['Home Location'] + df['Home Nickname']
+# df['Away Name'] = df['Away Location'] + df['Away Nickname']
+# df = (df[['Week', 'HomeAbbrev', 'Home Name', 'HomeScore', 'H Result', 'H Opponent', 'H Opponent Score']].rename(columns={'HomeAbbrev': 'Abbrev', 'HomeScore': 'Score', 'Home Name': 'Team Name', 'H Result':'Result', 'H Opponent':'Opponent', 'H Opponent Score':'Points against'}).append(df[['Week', 'AwayAbbrev', 'Away Name',
+# 'AwayScore', 'A Result', 'A Opponent', 'A Opponent Score']].rename(columns={'AwayAbbrev': 'Abbrev',
+# 'AwayScore': 'Score', 'Away Name':'Team Name', 'A Result':'Result', 'A Opponent':'Opponent', 'A Opponent Score':'Points against'})))
+
+
+df_list = df.values.tolist()
 
 df['Type'] = pd.Series(['Regular Season' if w<=13 else 'Playoff' for w in df['Week']])
 df['Margin'] = df['Score'] - df['Points against']
 
 dff = df[df['Week'] <= gw]
 df10 = df[df['Week'] >= 10]
-wk1016 = df10[df10['Score'] == df10['Score'].max()]['Abbrev'].values.tolist()[0]
+weeks10 = df10[df10['Score'] == df10['Score'].max()]['Abbrev'].values.tolist()
+wk1016 = weeks10[0]
+
 
 
 
 byAbbrev = dff.groupby('Abbrev')
 byWeek = dff.groupby('Week')
-'''
-#Possible dataframe manipulations to see various stats:
-byAbbrev.mean()['Score'].sort_values(ascending = False)   # Sorts by highest average scores
-byAbbrev.sum()['Score'].sort_values(ascending = False)  # Sorts by total points scored
-byAbbrev.mean()['Points against'].sort_values(ascending = False)  # Sorts by highest average scores
-byAbbrev.sum()['Points against'].sort_values(ascending = False)  # Sorts by total points scored
-'''
+
 #To get total win loss table:
 tab = []
 teams = dff['Abbrev'].unique()
@@ -138,6 +145,7 @@ for index, row in dff.iterrows():
         x = row['Score'] - row['Points against']
         if x > margin[0]:
             margin = [x, row['Abbrev'], row['Week']]
+margin[0] = "%.2f" % margin[0]
 
 
 trophies = {
@@ -145,7 +153,7 @@ trophies = {
 'second':['$100', second],
 'third':['$50', third],
 'season_winner':['$25', first],
-'skittish':['$40', 'TBD'],
+'skittish':['$40', 'DRAG'],
 'high_points':['$25', high_points],
 'week10_16':['$20', wk1016],
 'highest_loss':['$10', bl[1], bl[0], bl[2]],
@@ -167,12 +175,26 @@ for key, value in leaders.items():
 	temp = [key, value]
 	dollars.append(temp)
 
+# def skittish(league):
+#         skitted = []
+#         out=[]
+#         survivors = []
+#         for w in range(1,13):
+#             sort = df[df['Week'] == w].sort_values(by='Score').values.tolist()
+#             for i in sort:
+#                 if i[1] not in out:
+#                     temp = [i[1], w, i[3]]
+#                     skitted.append(temp)
+#                     out.append(i[1])
+#                     break
+#         survivors = ['Levi']
+#         return [out, survivors]
 
 def skittish(league): # outputs dictionary with key=game week, value =[losing score, team name], along with a list of survivors
     skitted = {}
     out=[]
-    survivors = []
-    for w in range(1, gameweek(league)):
+    survivors = ['The Dragons']
+    for w in range(1, 14):
         matchups = league.scoreboard(week=w)
         score = {}
         for i in matchups:
@@ -192,6 +214,8 @@ def skittish(league): # outputs dictionary with key=game week, value =[losing sc
         out.append(temp)
     return [out, survivors]
 
+skit = skittish(league)
+
 def season_stats():
     stats = []
     for i in range(1, gw):
@@ -206,11 +230,23 @@ def season_stats():
         i[3] = "%.2f" % i[3]
         i[4] = "%.2f" % i[4]
     return stats
-headers = ['Year', 'RANK', 'TEAM','OWNER(S)','REC','Wins','Losses','Ties','PF','PA','PF/G','PA/G']
 
-past = pd.DataFrame(past_seasons, columns=headers)
-szn2014 = past[past['Year'] == '2014'].values.tolist()
-szn2015 = past[past['Year'] == '2015'].values.tolist()
-szn2016 = past[past['Year'] == '2016'].values.tolist()
-szn2017 = past[past['Year'] == '2017'].values.tolist()
-past_szn = [szn2014, szn2015, szn2016, szn2017]
+
+# headers = ['Year', 'RANK', 'TEAM','OWNER(S)','REC','Wins','Losses','Ties','PF','PA','PF/G','PA/G']
+#
+# past = pd.DataFrame(past_seasons, columns=headers)
+# szn2014 = past[past['Year'] == '2014'].values.tolist()
+# szn2015 = past[past['Year'] == '2015'].values.tolist()
+# szn2016 = past[past['Year'] == '2016'].values.tolist()
+# szn2017 = past[past['Year'] == '2017'].values.tolist()
+# past_szn = [szn2014, szn2015, szn2016, szn2017]
+
+
+# headers = ['Year', 'RANK', 'TEAM','OWNER(S)','Wins','Losses','Ties','PF','PA']
+# past_list = list(PastSeasons.objects.all())
+# past = pd.DataFrame(past_list, columns=headers)
+# szn2014 = past[past['Year'] == '2014'].values.tolist()
+# szn2015 = past[past['Year'] == '2015'].values.tolist()
+# szn2016 = past[past['Year'] == '2016'].values.tolist()
+# szn2017 = past[past['Year'] == '2017'].values.tolist()
+# past_szn = [szn2014, szn2015, szn2016, szn2017]
