@@ -2,7 +2,7 @@ import requests
 from espnff import League
 import pandas as pd
 from .rswk_past import past_seasons
-from basic_app.models import CurrentSeason, PastSeasons
+from basic_app.models import CurrentSeason
 
 scores = {}
 frame = []
@@ -69,12 +69,6 @@ clist = list(CurrentSeason.objects.values_list('game_week', 'team_name', 'team_a
 'opponent', 'points_against', 'result'))
 cols = ['Week', 'Team Name', 'Abbrev', 'Score', 'Opponent', 'Points against', 'Result']
 df = pd.DataFrame.from_records(clist, columns=cols)
-
-# df['Home Name'] = df['Home Location'] + df['Home Nickname']
-# df['Away Name'] = df['Away Location'] + df['Away Nickname']
-# df = (df[['Week', 'HomeAbbrev', 'Home Name', 'HomeScore', 'H Result', 'H Opponent', 'H Opponent Score']].rename(columns={'HomeAbbrev': 'Abbrev', 'HomeScore': 'Score', 'Home Name': 'Team Name', 'H Result':'Result', 'H Opponent':'Opponent', 'H Opponent Score':'Points against'}).append(df[['Week', 'AwayAbbrev', 'Away Name',
-# 'AwayScore', 'A Result', 'A Opponent', 'A Opponent Score']].rename(columns={'AwayAbbrev': 'Abbrev',
-# 'AwayScore': 'Score', 'Away Name':'Team Name', 'A Result':'Result', 'A Opponent':'Opponent', 'A Opponent Score':'Points against'})))
 
 
 df_list = df.values.tolist()
@@ -175,20 +169,6 @@ for key, value in leaders.items():
 	temp = [key, value]
 	dollars.append(temp)
 
-# def skittish(league):
-#         skitted = []
-#         out=[]
-#         survivors = []
-#         for w in range(1,13):
-#             sort = df[df['Week'] == w].sort_values(by='Score').values.tolist()
-#             for i in sort:
-#                 if i[1] not in out:
-#                     temp = [i[1], w, i[3]]
-#                     skitted.append(temp)
-#                     out.append(i[1])
-#                     break
-#         survivors = ['Levi']
-#         return [out, survivors]
 
 def skittish(league): # outputs dictionary with key=game week, value =[losing score, team name], along with a list of survivors
     skitted = {}
@@ -230,23 +210,3 @@ def season_stats():
         i[3] = "%.2f" % i[3]
         i[4] = "%.2f" % i[4]
     return stats
-
-
-# headers = ['Year', 'RANK', 'TEAM','OWNER(S)','REC','Wins','Losses','Ties','PF','PA','PF/G','PA/G']
-#
-# past = pd.DataFrame(past_seasons, columns=headers)
-# szn2014 = past[past['Year'] == '2014'].values.tolist()
-# szn2015 = past[past['Year'] == '2015'].values.tolist()
-# szn2016 = past[past['Year'] == '2016'].values.tolist()
-# szn2017 = past[past['Year'] == '2017'].values.tolist()
-# past_szn = [szn2014, szn2015, szn2016, szn2017]
-
-
-# headers = ['Year', 'RANK', 'TEAM','OWNER(S)','Wins','Losses','Ties','PF','PA']
-# past_list = list(PastSeasons.objects.all())
-# past = pd.DataFrame(past_list, columns=headers)
-# szn2014 = past[past['Year'] == '2014'].values.tolist()
-# szn2015 = past[past['Year'] == '2015'].values.tolist()
-# szn2016 = past[past['Year'] == '2016'].values.tolist()
-# szn2017 = past[past['Year'] == '2017'].values.tolist()
-# past_szn = [szn2014, szn2015, szn2016, szn2017]

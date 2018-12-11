@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import CurrentSeason, PastSeasons
-from basic_app.espn_api import scoreboard_dict, record, league, skit, trophies, dollars, season_stats#, past_szn
+from basic_app.espn_api import scoreboard_dict, record, league, skit, trophies, dollars, season_stats
 
 
 
