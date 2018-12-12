@@ -123,8 +123,7 @@ def gw_db_update(gw):
 db_load = cur_db(gw)
 db_update = gw_db_update(gw)
 
-clist = list(CurrentSeason.objects.values_list('game_week', 'team_name', 'team_abbrev', 'poinst_for',
-'opponent', 'points_against', 'result')
+clist = list(CurrentSeason.objects.values_list('game_week', 'team_name', 'team_abbrev', 'poinst_for', 'opponent', 'points_against', 'result'))
 cols = ['Week', 'Team Name', 'Abbrev', 'Score', 'Opponent', 'Points against', 'Result']
 df = pd.DataFrame.from_records(clist, columns=cols)
 
