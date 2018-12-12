@@ -1,11 +1,11 @@
 import requests
 from espnff import League
 import pandas as pd
-from .rswk_past import past_seasons
+
 from basic_app.models import CurrentSeason
 
-scores = {}
-frame = []
+
+
 full = []
 
 endpoint = 'http://games.espn.com/ffl/api/v2/scoreboard'
@@ -30,40 +30,52 @@ def gameweek(league): #finds currrent week
 
 gw = gameweek(league)
 
-for week in range(1, gw):
+def gw_db_update(gw):
+    frame = []
+    scores = {}
+    week = gw - 1
     r = requests.get('http://games.espn.com/ffl/api/v2/scoreboard',
                     params={'leagueId': league_id, 'seasonId': 2018, 'matchupPeriodId': week})
     scores[week] = r.json()
 
-for key in scores:
-    temp = scores[key]['scoreboard']['matchups']
-    for match in temp:
-        if match['winner'] == "away":
-            away = 1
-            home = 0
-        else:
-            away = 0
-            home = 1
-        frame.append([key,
-                   match['teams'][0]['team']['teamAbbrev'],
-                   match['teams'][0]['team']['teamLocation'],
-                   match['teams'][0]['team']['teamNickname'],
-                   match['teams'][1]['team']['teamAbbrev'],
-                   match['teams'][0]['score'],
-                   match['teams'][1]['score'],
-                   home,
-                   match['teams'][1]['team']['teamAbbrev'],
-                   match['teams'][1]['team']['teamLocation'],
-                   match['teams'][1]['team']['teamNickname'],
-                   match['teams'][0]['team']['teamAbbrev'],
-                   match['teams'][1]['score'],
-                   match['teams'][0]['score'],
-                   away])
+    for key in scores:
+        temp = scores[key]['scoreboard']['matchups']
+        for match in temp:
+            if match['winner'] == "away":
+                away = 1
+                home = 0
+            else:
+                away = 0
+                home = 1
+            frame.append([key,
+                       match['teams'][0]['team']['teamAbbrev'],
+                       match['teams'][0]['team']['teamLocation'],
+                       match['teams'][0]['team']['teamNickname'],
+                       match['teams'][1]['team']['teamAbbrev'],
+                       match['teams'][0]['score'],
+                       match['teams'][1]['score'],
+                       home,
+                       match['teams'][1]['team']['teamAbbrev'],
+                       match['teams'][1]['team']['teamLocation'],
+                       match['teams'][1]['team']['teamNickname'],
+                       match['teams'][0]['team']['teamAbbrev'],
+                       match['teams'][1]['score'],
+                       match['teams'][0]['score'],
+                       away])
 
-# df = pd.DataFrame(frame, columns=['Week', 'HomeAbbrev', 'Home Location', 'Home Nickname', 'H Opponent', 'HomeScore', 'H Opponent Score',
-#                                   'H Result','AwayAbbrev', 'Away Location', 'Away Nickname', 'A Opponent', 'AwayScore', 'A Opponent Score', 'A Result'])
+    df = pd.DataFrame(frame, columns=['Week', 'HomeAbbrev', 'Home Location', 'Home Nickname', 'H Opponent', 'HomeScore', 'H Opponent Score',
+                                  'H Result','AwayAbbrev', 'Away Location', 'Away Nickname', 'A Opponent', 'AwayScore', 'A Opponent Score', 'A Result'])
 
+    df['Home Name'] = df['Home Location'] + df['Home Nickname']
+    df['Away Name'] = df['Away Location'] + df['Away Nickname']
 
+    df = (df[['Week', 'HomeAbbrev', 'Home Name', 'HomeScore', 'H Result', 'H Opponent', 'H Opponent Score']].rename(columns={'HomeAbbrev': 'Abbrev', 'HomeScore': 'Score', 'Home Name': 'Team Name', 'H Result':'Result', 'H Opponent':'Opponent', 'H Opponent Score':'Points against'}).append(df[['Week', 'AwayAbbrev', 'Away Name',
+'AwayScore', 'A Result', 'A Opponent', 'A Opponent Score']].rename(columns={'AwayAbbrev': 'Abbrev', 'AwayScore': 'Score', 'Away Name':'Team Name', 'A Result':'Result', 'A Opponent':'Opponent', 'A Opponent Score':'Points against'})))
+
+    df_list = df.values.tolist()
+    return df_list
+
+db_update = gw_db_update(gw)
 
 clist = list(CurrentSeason.objects.values_list('game_week', 'team_name', 'team_abbrev', 'poinst_for',
 'opponent', 'points_against', 'result'))
@@ -76,7 +88,7 @@ df_list = df.values.tolist()
 df['Type'] = pd.Series(['Regular Season' if w<=13 else 'Playoff' for w in df['Week']])
 df['Margin'] = df['Score'] - df['Points against']
 
-dff = df[df['Week'] <= gw]
+dff = df[df['Week'] <= 13]
 df10 = df[df['Week'] >= 10]
 weeks10 = df10[df10['Score'] == df10['Score'].max()]['Abbrev'].values.tolist()
 wk1016 = weeks10[0]
