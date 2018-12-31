@@ -2,7 +2,7 @@ import requests
 from espnff import League
 import pandas as pd
 
-from basic_app.models import CurrentSeason
+# from basic_app.models import CurrentSeason
 
 
 
@@ -17,7 +17,7 @@ league = League(league_id, seasonId)
 def gameweek(league): #finds currrent week
         count = 1
         current = False
-        while current == False and count < 17:
+        while current == False:
              r = requests.get('http://games.espn.com/ffl/api/v2/scoreboard',
                     params={'leagueId': league_id, 'seasonId': 2018, 'matchupPeriodId': count})
              temp = r.json()
@@ -123,19 +123,19 @@ def gw_db_update(gw):
 
 db_load = cur_db(gw).values.tolist()
 db_update = gw_db_update(gw)
-#
-clist = list(CurrentSeason.objects.values_list('game_week', 'team_name', 'team_abbrev', 'poinst_for', 'opponent', 'points_against', 'result'))
-cols = ['Week', 'Team Name', 'Abbrev', 'Score', 'Opponent', 'Points against', 'Result']
-df = pd.DataFrame.from_records(clist, columns=cols)
 
-# df = cur_db(gw)
+# clist = list(CurrentSeason.objects.values_list('game_week', 'team_name', 'team_abbrev', 'poinst_for', 'opponent', 'points_against', 'result'))
+# cols = ['Week', 'Team Name', 'Abbrev', 'Score', 'Opponent', 'Points against', 'Result']
+# df = pd.DataFrame.from_records(clist, columns=cols)
+
+df = cur_db(gw)
 
 df_list = df.values.tolist()
 
 df['Type'] = pd.Series(['Regular Season' if w<=13 else 'Playoff' for w in df['Week']])
 df['Margin'] = df['Score'] - df['Points against']
 
-dff = df[df['Week'] <= 13]
+dff = df[df['Week'] <= 16]
 df10 = df[df['Week'] >= 10]
 weeks10 = df10[df10['Score'] == df10['Score'].max()]['Abbrev'].values.tolist()
 wk1016 = weeks10[0]
@@ -143,8 +143,7 @@ wk1016 = weeks10[0]
 
 
 
-byAbbrev = df.groupby('Abbrev')
-
+byAbbrev = dff.groupby('Abbrev')
 byWeek = dff.groupby('Week')
 
 #To get total win loss table:
@@ -203,13 +202,13 @@ margin[0] = "%.2f" % margin[0]
 
 
 trophies = {
-'first':['$375', 'FoxBox'],
-'second':['$100', 'Trent'],
-'third':['$50', 'Levi'],
+'first':['$375', first],
+'second':['$100', second],
+'third':['$50', third],
 'season_winner':['$25', first],
 'skittish':['$40', 'DRAG'],
 'high_points':['$25', high_points],
-'week10_16':['$20', 'DRAG'],
+'week10_16':['$20', wk1016],
 'highest_loss':['$10', bl[1], bl[0], bl[2]],
 'high_score':['$10', hs[1], hs[0], hs[2]],
 'margin':['$10', margin[1], margin[0], margin[2]],
