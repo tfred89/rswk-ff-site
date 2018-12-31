@@ -204,8 +204,8 @@ margin[0] = "%.2f" % margin[0]
 
 trophies = {
 'first':['$375', 'FoxBox'],
-'second':['$100', 'Trent'],
-'third':['$50', 'Levi'],
+'second':['$100', 'phil'],
+'third':['$50', 'DRAG'],
 'season_winner':['$25', first],
 'skittish':['$40', 'DRAG'],
 'high_points':['$25', high_points],
