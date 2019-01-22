@@ -5,7 +5,6 @@ import pandas as pd
 from basic_app.models import CurrentSeason
 
 league_players = {
-'EJF':'eduardo fischer',
 'STAN':'Ryan Stanley',
 'TRLY':'Taylor Cannetti',
 'TW':'Michael Welsh',
@@ -19,7 +18,8 @@ league_players = {
 'null':'Jeff Arn',
 'TBUX':'Tyler Santiago',
 'JERI':'Jeremi Mattern',
-'DRAG':'Levi Laclair'
+'DRAG':'Levi Laclair',
+'EJF':'eduardo fischer'
 }
 
 owners = list(league_players.values())

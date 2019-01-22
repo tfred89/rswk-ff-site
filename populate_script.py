@@ -12,20 +12,16 @@ from basic_app.rswk_past import past_seasons
 from basic_app.espn_api import db_update, db_load, owners
 
 def add_player(li):
-    stat = Player.objects.get_or_create(player_name=li[0])[0]
+    stat = Player.objects.get_or_create(player_name=li)[0]
     stat.save()
 
 def add_past(li):
-    stat = PastSeasons.objects.get_or_create(year=li[0], place=li[1],
-    team_name=li[2], owner=li[3], wins=li[5], losses=li[6], ties=li[7],
-    points_for=li[8], points_against=li[9])[0]
+    stat = PastSeasons.objects.get_or_create(year=int(li[0]), place=int(li[1]), team_name=li[2], owner=li[3], wins=int(li[5]), losses=int(li[6]), ties=int(li[7]), points_for=float(li[8]), points_against=float(li[9]))[0]
 
     stat.save()
 
 def add_cur(li):
-    stat = CurrentSeason.objects.get_or_create(game_week=li[0], team_abbrev=li[1],
-    team_name=li[2], poinst_for=li[3], opponent=li[5], result=li[4],
-    points_against=li[6], owner=li[7])[0]
+    stat = CurrentSeason.objects.get_or_create(game_week=li[0], team_abbrev=li[1], team_name=li[2], poinst_for=li[3], opponent=li[5], result=li[4], points_against=li[6], owner=li[7])[0]
 
     stat.save()
 
