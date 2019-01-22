@@ -4,7 +4,25 @@ import pandas as pd
 
 from basic_app.models import CurrentSeason
 
+league_players = {
+'EJF':'eduardo fischer',
+'STAN':'Ryan Stanley',
+'TRLY':'Taylor Cannetti',
+'TW':'Michael Welsh',
+'JML':'Juan Lopez',
+'FOX':'Ryan Fox',
+'phil':'Trent Frederick',
+'DICK':'Dickie Fischer',
+'GODS':'Caleb Stiernagle',
+'HATE':'Matthew Smith',
+"JJ's":'Justin Welsh',
+'null':'Jeff Arn',
+'TBUX':'Tyler Santiago',
+'JERI':'Jeremi Mattern',
+'DRAG':'Levi Laclair'
+}
 
+owners = list(league_players.values())
 
 full = []
 
@@ -72,6 +90,8 @@ def cur_db(gw):
     df = (df[['Week', 'HomeAbbrev', 'Home Name', 'HomeScore', 'H Result', 'H Opponent', 'H Opponent Score']].rename(columns={'HomeAbbrev': 'Abbrev', 'HomeScore': 'Score', 'Home Name': 'Team Name', 'H Result':'Result', 'H Opponent':'Opponent', 'H Opponent Score':'Points against'}).append(df[['Week', 'AwayAbbrev', 'Away Name',
 'AwayScore', 'A Result', 'A Opponent', 'A Opponent Score']].rename(columns={'AwayAbbrev': 'Abbrev', 'AwayScore': 'Score', 'Away Name':'Team Name', 'A Result':'Result', 'A Opponent':'Opponent', 'A Opponent Score':'Points against'})))
 
+    df['Owner'] = df['Abbrev'].map(league_players)
+
     df_list = df.values.tolist()
     return df
 
@@ -116,7 +136,7 @@ def gw_db_update(gw):
 
     df = (df[['Week', 'HomeAbbrev', 'Home Name', 'HomeScore', 'H Result', 'H Opponent', 'H Opponent Score']].rename(columns={'HomeAbbrev': 'Abbrev', 'HomeScore': 'Score', 'Home Name': 'Team Name', 'H Result':'Result', 'H Opponent':'Opponent', 'H Opponent Score':'Points against'}).append(df[['Week', 'AwayAbbrev', 'Away Name',
 'AwayScore', 'A Result', 'A Opponent', 'A Opponent Score']].rename(columns={'AwayAbbrev': 'Abbrev', 'AwayScore': 'Score', 'Away Name':'Team Name', 'A Result':'Result', 'A Opponent':'Opponent', 'A Opponent Score':'Points against'})))
-
+    df['Owner'] = df['Abbrev'].map(league_players)
     df_list = df.values.tolist()
     return df_list
 

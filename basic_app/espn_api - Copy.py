@@ -3,7 +3,23 @@ from espnff import League
 import pandas as pd
 
 # from basic_app.models import CurrentSeason
-
+league_players = {
+'EJF':'eduardo fischer',
+'STAN':'Ryan Stanley',
+'TRLY':'Taylor Cannetti',
+'TW':'Michael Welsh',
+'JML':'Juan Lopez',
+'FOX':'Ryan Fox',
+'phil':'Trent Frederick',
+'DICK':'Dickie Fischer',
+'GODS':'Caleb Stiernagle',
+'HATE':'Matthew Smith',
+"JJ's":'Justin Welsh',
+'null':'Jeff Arn',
+'TBUX':'Tyler Santiago',
+'JERI':'Jeremi Mattern',
+'DRAG':'Levi Laclair'
+}
 
 
 full = []
@@ -17,7 +33,7 @@ league = League(league_id, seasonId)
 def gameweek(league): #finds currrent week
         count = 1
         current = False
-        while current == False:
+        while current == False and count < 17:
              r = requests.get('http://games.espn.com/ffl/api/v2/scoreboard',
                     params={'leagueId': league_id, 'seasonId': 2018, 'matchupPeriodId': count})
              temp = r.json()
@@ -72,6 +88,7 @@ def cur_db(gw):
     df = (df[['Week', 'HomeAbbrev', 'Home Name', 'HomeScore', 'H Result', 'H Opponent', 'H Opponent Score']].rename(columns={'HomeAbbrev': 'Abbrev', 'HomeScore': 'Score', 'Home Name': 'Team Name', 'H Result':'Result', 'H Opponent':'Opponent', 'H Opponent Score':'Points against'}).append(df[['Week', 'AwayAbbrev', 'Away Name',
 'AwayScore', 'A Result', 'A Opponent', 'A Opponent Score']].rename(columns={'AwayAbbrev': 'Abbrev', 'AwayScore': 'Score', 'Away Name':'Team Name', 'A Result':'Result', 'A Opponent':'Opponent', 'A Opponent Score':'Points against'})))
 
+    df['Owner'] = df['Abbrev'].map(league_players)
     df_list = df.values.tolist()
     return df
 
