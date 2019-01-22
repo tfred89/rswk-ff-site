@@ -31,7 +31,7 @@ class CurrentSeason(models.Model):
     opponent = models.CharField(max_length=100, unique=False)
     points_against = models.FloatField()
     result = models.IntegerField(default=0)
-    owner = models.ForeignKey(Player, default=' ', on_delete=models.CASCADE)
+    owner = models.ForeignKey(Player, default=1, on_delete=models.CASCADE)
 
 
     def __str__(self):
