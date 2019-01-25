@@ -113,11 +113,11 @@ CACHES = {
    'default': {
       'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
       'LOCATION': os.path.join(BASE_DIR, "django_cache"),
-      'TIMEOUT': None,
+      'TIMEOUT': 32000000,
    }
 }
 CACHE_MIDDLEWARE_ALIAS = 'default'
-CACHE_MIDDLEWARE_SECONDS = None
+CACHE_MIDDLEWARE_SECONDS = 32000000
 CACHE_MIDDLEWARE_KEY_PREFIX = ''
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
