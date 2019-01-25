@@ -16,8 +16,8 @@ def add_player(li):
     stat.save()
 
 def add_past(li):
-    stat = PastSeasons.objects.get_or_create(year=int(li[0]), place=int(li[1]), team_name=li[2], owner=li[3], wins=int(li[5]), losses=int(li[6]), ties=int(li[7]), points_for=float(li[8]), points_against=float(li[9]))[0]
 
+    stat = PastSeasons.objects.get_or_create(year=int(li[0]), place=int(li[1]), team_name=li[2], owner=li[3], wins=int(li[5]), losses=int(li[6]), ties=int(li[7]), points_for=float(li[8]), points_against=float(li[9]))[0]
     stat.save()
 
 def add_cur(li):
