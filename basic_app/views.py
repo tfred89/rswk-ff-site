@@ -33,8 +33,9 @@ def past(request):
     for key in totals.keys():
         szn = list(CurrentSeason.objects.filter(owner=key).aggregate(Sum('result')).values())[0]
         cur = totals[key]
-        cur[0] += szn
-        cur[1] += (16 - szn)
+        if type(szn) == int:
+            cur[0] += szn
+            cur[1] += (16 - szn)
         pct = "%.3f" % float(cur[0]/(cur[0] + cur[1]))
         totals[key].append(pct)
 
