@@ -20,10 +20,8 @@ def season(request):
 
 def past(request):
     past_list = PastSeasons.objects.order_by('year')
-    past_szn = {'past_szn': past_list}
 
-    clist = list(PastSeasons.objects.values_list('owner', 'wins',
-            'losses'))
+    clist = list(PastSeasons.objects.values_list('owner', 'wins', 'losses'))
     totals = {}
     for c in clist:
         if c[0] in totals:
@@ -32,9 +30,12 @@ def past(request):
         else:
             totals[c[0]] = [c[1], c[2]]
     for key in totals.keys():
+        szn = list(CurrentSeason.objects.filter(owner=key).aggregate(Sum('result')).values())[0]
         cur = totals[key]
+        cur[0] += szn
+        cur[1] += (16 - szn)
         pct = "%.3f" % float(cur[0]/(cur[0] + cur[1]))
         totals[key].append(pct)
-    total = {'totals':totals}
+
 
     return render(request, 'basic_app/past_seasons.html', {'past_szn': past_list, 'total':totals})
