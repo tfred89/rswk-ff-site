@@ -37,4 +37,4 @@ def past(request):
         totals[key].append(pct)
     total = {'totals':totals}
 
-    return render(request, 'basic_app/past_seasons.html', {past_szn, total})
+    return render(request, 'basic_app/past_seasons.html', {'past_szn': past_list, 'total':totals})
