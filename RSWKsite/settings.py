@@ -118,7 +118,7 @@ CACHES = {
 }
 CACHE_MIDDLEWARE_ALIAS = 'default'
 CACHE_MIDDLEWARE_SECONDS = None
-CACHE_MIDDLEWARE_KEY_PREFIX = ‘’
+CACHE_MIDDLEWARE_KEY_PREFIX = ''
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
