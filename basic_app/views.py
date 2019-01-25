@@ -31,10 +31,10 @@ def past(request):
             totals[c[0]][1] += c[2]
         else:
             totals[c[0]] = [c[1], c[2]]
-    for key in total.keys():
+    for key in totals.keys():
         cur = totals[key]
         pct = float(cur[0]/cur[1])
-        total[key].append(pct)
+        totals[key].append(pct)
     total = {'totals':totals}
 
     return render(request, 'basic_app/past_seasons.html', {past_szn, total})
