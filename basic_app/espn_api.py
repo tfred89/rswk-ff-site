@@ -193,7 +193,6 @@ def scoreboard_dict(record):
         i[4] = int(i[4])
         i.append(count)
         count += 1
-    temp
     return temp
 
 #Trophies:

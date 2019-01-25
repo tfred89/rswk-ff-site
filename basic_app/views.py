@@ -33,7 +33,7 @@ def past(request):
             totals[c[0]] = [c[1], c[2]]
     for key in totals.keys():
         cur = totals[key]
-        pct = float(cur[0]/cur[1])
+        pct = "%.3f" % float(cur[0]/(cur[0] + cur[1]))
         totals[key].append(pct)
     total = {'totals':totals}
 
