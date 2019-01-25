@@ -22,4 +22,19 @@ def past(request):
     past_list = PastSeasons.objects.order_by('year')
     past_szn = {'past_szn': past_list}
 
-    return render(request, 'basic_app/past_seasons.html', past_szn)
+    clist = list(PastSeasons.objects.values_list('owner', 'wins',
+            'losses'))
+    totals = {}
+    for c in clist:
+        if c[0] in totals:
+            totals[c[0]][0] += c[1]
+            totals[c[0]][1] += c[2]
+        else:
+            totals[c[0]] = [c[1], c[2]]
+    for key in total.keys():
+        cur = totals[key]
+        pct = float(cur[0]/cur[1])
+        total[key].append(pct)
+    total = {'totals':totals}
+
+    return render(request, 'basic_app/past_seasons.html', {past_szn, total})
