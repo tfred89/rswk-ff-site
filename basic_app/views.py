@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.db.models import Sum
-from .models import CurrentSeason, PastSeasons
+from .models import CurrentSeason, PastSeasons, Player
 from basic_app.espn_api import scoreboard_dict, record, league, skit, trophies, dollars, season_stats
 
 
@@ -14,6 +14,9 @@ def home(request):
     return render(request, 'basic_app/home1.html', {'Scoreboard':score_dict,
     'skit_in':skitted, 'survivor':surv, 'trophies':trophies, 'leaders':dollars})
 
+def teams(request):
+    player_list = Player.objects.all()
+    return render(request, 'base.html', {'player_list':player_list})
 
 def season(request):
     stats = season_stats()

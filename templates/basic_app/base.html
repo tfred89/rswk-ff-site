@@ -58,11 +58,10 @@
               Teams
             </a>
             <div class="dropdown-menu" aria-labelledby="navbar-dropdown-menu">
-              <a class="dropdown-item" href="#">Coming soon</a>
-              <!-- <a class="dropdown-item" href="#">Trent</a>
-              <a class="dropdown-item" href="#">Levi</a>
-              <a class="dropdown-item" href="#">Edu</a> -->
+              {% for i in player_list %}
+              <a class="dropdown-item" href="#">i.player_name</a>
 
+              {% endfor %}
               <!-- Use this to separate a new link: -->
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="http://games.espn.com/ffl/leaguerosters?leagueId=1406490">ESPN League Rosters</a>

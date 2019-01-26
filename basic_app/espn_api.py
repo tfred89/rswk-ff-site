@@ -278,10 +278,10 @@ skit = skittish(league)
 def season_stats():
     stats = []
     for i in range(1, gw):
-        hi = dff[dff['Week']==i]['Score'].max()
-        lo = dff[dff['Week']==i]['Score'].min()
-        avg = dff[dff['Week']==i]['Score'].mean()
-        std = dff[dff['Week']==i]['Score'].std()
+        hi = df[df['Week']==i]['Score'].max()
+        lo = df[df['Week']==i]['Score'].min()
+        avg = df[df['Week']==i]['Score'].mean()
+        std = df[df['Week']==i]['Score'].std()
         stats.append([i, hi, lo, avg, std])
     for i in stats:
         i[1] = "%.2f" % i[1]
