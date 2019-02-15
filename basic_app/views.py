@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.db.models import Sum
 from .models import CurrentSeason, PastSeasons, Player
-from basic_app.espn_api import scoreboard_dict, record, trophies, dollars, season_stats
+from basic_app.espn_api import owners, scoreboard_dict, record, trophies, dollars, season_stats
 
 
 
