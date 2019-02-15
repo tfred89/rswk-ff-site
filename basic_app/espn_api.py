@@ -30,7 +30,7 @@ endpoint = 'http://games.espn.com/ffl/api/v2/scoreboard'
 
 league_id = 1406490
 seasonId = 2018
-league = League(league_id, seasonId)
+#league = League(league_id, seasonId)
 
 def gameweek(league): #finds currrent week
         count = 1
@@ -46,8 +46,8 @@ def gameweek(league): #finds currrent week
                      count += 1
         return count
 
-gw = gameweek(league)
-
+#gw = gameweek(league)
+gw = 16 #this is temporary, delete as needed
 def cur_db(gw):
     frame = []
     scores = {}
@@ -144,8 +144,8 @@ def gw_db_update(gw):
 # db_load = cur_db(gw).values.tolist()
 # db_update = gw_db_update(gw)
 #
-clist = list(CurrentSeason.objects.values_list('game_week', 'team_name', 'team_abbrev', 'poinst_for', 'opponent', 'points_against', 'result'))
-cols = ['Week', 'Team Name', 'Abbrev', 'Score', 'Opponent', 'Points against', 'Result']
+clist = list(CurrentSeason.objects.values_list('game_week', 'team_name', 'team_abbrev', 'poinst_for', 'opponent', 'points_against', 'result', 'owner'))
+cols = ['Week', 'Team Name', 'Abbrev', 'Score', 'Opponent', 'Points against', 'Result', 'Owner']
 df = pd.DataFrame.from_records(clist, columns=cols)
 
 # df = cur_db(gw)
@@ -273,7 +273,7 @@ def skittish(league): # outputs dictionary with key=game week, value =[losing sc
         out.append(temp)
     return [out, survivors]
 
-skit = skittish(league)
+#skit = skittish(league)
 
 def season_stats():
     stats = []

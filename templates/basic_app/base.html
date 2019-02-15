@@ -27,6 +27,31 @@
       body{
         background-color: #D8DBE2;
       }
+      #lineChart{
+        background-color: #ffffff;
+        border: 2px solid #171617;
+        padding: 1.5%;
+        margin: 4px;
+        border-radius: 3px;
+      }
+      #barChart{
+        background-color: #ffffff;
+        border: 2px solid #171617;
+        padding: 1.5%;
+        margin: 4px;
+        border-radius: 3px;
+      }
+      .chart-container{
+        border: 2px solid #171617;
+        color: #EEF4ED;
+        padding: 1.5%;
+        margin: 4px;
+        border-radius: 3px;
+      }
+      .rowone{
+        padding-bottom: 20px;
+      }
+      }
     </style>
   </head>
   <body>
@@ -59,7 +84,7 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbar-dropdown-menu">
               {% for i in player_list %}
-              <a class="dropdown-item" href="#">i.player_name</a>
+              <a class="dropdown-item" href="#">{{i}}</a>
 
               {% endfor %}
               <!-- Use this to separate a new link: -->
@@ -88,6 +113,14 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <!-- chart.js cdn -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js'></script>
 
+    <script>
+    $(document).ready(function(){
+    {% block jquery %}{% endblock %}
+    })
+    </script>
+    
   </body>
 </html>

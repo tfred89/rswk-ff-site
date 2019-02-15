@@ -1,22 +1,20 @@
 from django.shortcuts import render
 from django.db.models import Sum
 from .models import CurrentSeason, PastSeasons, Player
-from basic_app.espn_api import scoreboard_dict, record, league, skit, trophies, dollars, season_stats
+from basic_app.espn_api import scoreboard_dict, record, trophies, dollars, season_stats
 
 
 
 # Create your views here.
 def home(request):
     score_dict = scoreboard_dict(record)
-    skitted = skit[0]
-    surv = skit[1]
-
-    return render(request, 'basic_app/home1.html', {'Scoreboard':score_dict,
-    'skit_in':skitted, 'survivor':surv, 'trophies':trophies, 'leaders':dollars})
-
-def teams(request):
-    player_list = Player.objects.all()
-    return render(request, 'base.html', {'player_list':player_list})
+    player = []
+    for a in owners:
+        scores = list(CurrentSeason.objects.filter(owner=a).order_by('game_week').values_list('poinst_for', flat=True))
+        if len(scores)>0:
+            player.append([a, scores])
+    return render(request, 'basic_app/home.html', {'week_scores':player,
+    'Scoreboard':score_dict, 'trophies':trophies, 'leaders':dollars})
 
 def season(request):
     stats = season_stats()
@@ -41,6 +39,5 @@ def past(request):
             cur[1] += (16 - szn)
         pct = "%.3f" % float(cur[0]/(cur[0] + cur[1]))
         totals[key].append(pct)
-
 
     return render(request, 'basic_app/past_seasons.html', {'past_szn': past_list, 'total':totals})
