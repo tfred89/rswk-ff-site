@@ -19,7 +19,6 @@ from basic_app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.team, name='team'),
     path('past', views.past, name='past'),
-    re_path(r'^basic_app/', include('basic_app.urls'))
+    path('', include('basic_app.urls')),
 ]
