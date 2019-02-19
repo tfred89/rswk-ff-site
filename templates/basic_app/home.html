@@ -110,7 +110,7 @@ var data2 = {
   labels: labels2,
   datasets:[{
     data: dataset2,
-    backgroundColor: "green",
+    backgroundColor: ["#e6194B", "#3cb44b", "#ffe119", "#4363d8", "#f58231", "#42d4f4", "#469990"],
     borderCapStyle: 'square',
   }]
 };
@@ -152,7 +152,7 @@ var myBarChart = new Chart(ctx2, {
 
         <div class="container-fluid text-center">
           <div class="row justify-content-center rowone row-eq-height">
-            <div class="col-xl-5">
+            <div class="col-lg-7">
               <div class="table-responsive boxy">
                 <h2>Current Standings</h2>
                 <table class="table table-sm table-striped table-hover">
@@ -185,25 +185,23 @@ var myBarChart = new Chart(ctx2, {
                 </table>
               </div>
             </div>
-            <div class="col-xl-6">
+          </div>
 
 
+
+          <div class="row justify-content-center rowone row-eq-height">
+            <div class="col-lg-7">
               <div class="chart-container flex-fill" style ="position: relative;">
               <canvas id="lineChart" style='display:block'></canvas>
-            </div>
-            <p>Click the players name to toggle the chart view.</p>
-            </div>
-          </div>
-
-          <div class="row justify-content-center row-eq-height">
-            <div class="col-xl-6">
-
-
-            <div class="chart-container flex-fill" style ="position: relative;">
-            <canvas id="barChart" style='display:block'></canvas>
+              </div>
+              <p>Click the players name to toggle the chart view.</p>
             </div>
           </div>
-            <div class="col-xl-5">
+
+
+
+          <div class="row justify-content-center rowone row-eq-height">
+            <div class="col-lg-7">
               <div class="table-responsive boxy">
                 <h2>Current Projected Winnings</h2>
                 <table class="table table-sm table-striped table-hover">
@@ -228,126 +226,138 @@ var myBarChart = new Chart(ctx2, {
                 </table>
               </div>
             </div>
+          </div>
 
-        </div>
-
-
-          <div class="container-fluid text-center third">
-            <div class="row justify-content-center row-eq-height">
-              <div class="col-xl-5">
-                <div class="table-responsive boxy">
-                  <h2>Current Prize Leaders</h2>
-                  <table class="table table-sm table-striped table-hover">
-                    <thead class="thead-light">
-                      {% if trophies %}
-                      <tr>
-                        <th scope="col">Title</th>
-                        <th scope="col">Prize</th>
-                        <th scope="col">Current Leader</th>
-                        <th scope="col">Score</th>
-                        <th scope="col">Game Week</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row">League Champion</th>
-                        <td>{{ trophies.first.0 }}</td>
-                        <td>{{ trophies.first.1 }}</td>
-                        <td>-</td>
-                        <td>-</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">League Runner-Up</th>
-                        <td>{{ trophies.second.0 }}</td>
-                        <td>{{ trophies.second.1 }}</td>
-                        <td>-</td>
-                        <td>-</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Third Place</th>
-                        <td>{{ trophies.third.0 }}</td>
-                        <td>{{ trophies.third.1 }}</td>
-                        <td>-</td>
-                        <td>-</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Skittish Winner</th>
-                        <td>{{ trophies.skittish.0 }}</td>
-                        <td>{{ trophies.skittish.1 }}</td>
-                        <td>-</td>
-                        <td>-</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Regular Season Winner</th>
-                        <td>{{ trophies.season_winner.0 }}</td>
-                        <td>{{ trophies.season_winner.1 }}</td>
-                        <td>-</td>
-                        <td>-</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Most Points to Miss Playoffs</th>
-                        <td>{{ trophies.best_miss.0 }}</td>
-                        <td>{{ trophies.best_miss.1 }}</td>
-                        <td>-</td>
-                        <td>-</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Most Points Scored</th>
-                        <td>{{ trophies.high_points.0 }}</td>
-                        <td>{{ trophies.high_points.1 }}</td>
-                        <td>-</td>
-                        <td>-</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Most Points Week 10-16</th>
-                        <td>{{ trophies.week10_16.0 }}</td>
-                        <td>{{ trophies.week10_16.1 }}</td>
-                        <td>-</td>
-                        <td>-</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Most Points Against</th>
-                        <td>{{ trophies.most_against.0 }}</td>
-                        <td>{{ trophies.most_against.1 }}</td>
-                        <td>-</td>
-                        <td>-</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Highest Scoring Loss</th>
-                        <td>{{ trophies.highest_loss.0 }}</td>
-                        <td>{{ trophies.highest_loss.1 }}</td>
-                        <td>{{ trophies.highest_loss.2 }}</td>
-                        <td>{{ trophies.highest_loss.3 }}</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Highest Single Week Score</th>
-                        <td>{{ trophies.high_score.0 }}</td>
-                        <td>{{ trophies.high_score.1 }}</td>
-                        <td>{{ trophies.high_score.2 }}</td>
-                        <td>{{ trophies.high_score.3 }}</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Biggest Margin of Victory</th>
-                        <td>{{ trophies.margin.0 }}</td>
-                        <td>{{ trophies.margin.1 }}</td>
-                        <td>{{ trophies.margin.2 }}</td>
-                        <td>{{ trophies.margin.3 }}</td>
-                      </tr>
-                      {% endif %}
-
-                    </tbody>
-                  </table>
-                </div>
+          <div class="row justify-content-center rowone row-eq-height">
+            <div class="col-lg-7">
+              <div class="chart-container flex-fill" style ="position: relative;">
+              <canvas id="barChart" style='display:block;'></canvas>
               </div>
+            </div>
+          </div>
 
-                   <div class="col-xl-5">
-                   <div class="boxy">The Real Schefty </div>
-                     <a class="twitter-timeline" data-height="595px"  href="https://twitter.com/AdamSchefter?ref_src=twsrc%5Etfw">Tweets by AdamSchefter</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                   </div>
 
-  </div>
-  </div>
-</div>
+          <div class="row justify-content-center rowone row-eq-height">
+            <div class="col-lg-7">
+              <div class="table-responsive boxy">
+                <h2>Current Prize Leaders</h2>
+                <table class="table table-sm table-striped table-hover">
+                  <thead class="thead-light">
+                    {% if trophies %}
+                    <tr>
+                      <th scope="col">Title</th>
+                      <th scope="col">Prize</th>
+                      <th scope="col">Current Leader</th>
+                      <th scope="col">Score</th>
+                      <th scope="col">Game Week</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">League Champion</th>
+                      <td>{{ trophies.first.0 }}</td>
+                      <td>{{ trophies.first.1 }}</td>
+                      <td>-</td>
+                      <td>-</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">League Runner-Up</th>
+                      <td>{{ trophies.second.0 }}</td>
+                      <td>{{ trophies.second.1 }}</td>
+                      <td>-</td>
+                      <td>-</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Third Place</th>
+                      <td>{{ trophies.third.0 }}</td>
+                      <td>{{ trophies.third.1 }}</td>
+                      <td>-</td>
+                      <td>-</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Skittish Winner</th>
+                      <td>{{ trophies.skittish.0 }}</td>
+                      <td>{{ trophies.skittish.1 }}</td>
+                      <td>-</td>
+                      <td>-</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Regular Season Winner</th>
+                      <td>{{ trophies.season_winner.0 }}</td>
+                      <td>{{ trophies.season_winner.1 }}</td>
+                      <td>-</td>
+                      <td>-</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Most Points to Miss Playoffs</th>
+                      <td>{{ trophies.best_miss.0 }}</td>
+                      <td>{{ trophies.best_miss.1 }}</td>
+                      <td>-</td>
+                      <td>-</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Most Points Scored</th>
+                      <td>{{ trophies.high_points.0 }}</td>
+                      <td>{{ trophies.high_points.1 }}</td>
+                      <td>-</td>
+                      <td>-</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Most Points Week 10-16</th>
+                      <td>{{ trophies.week10_16.0 }}</td>
+                      <td>{{ trophies.week10_16.1 }}</td>
+                      <td>-</td>
+                      <td>-</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Most Points Against</th>
+                      <td>{{ trophies.most_against.0 }}</td>
+                      <td>{{ trophies.most_against.1 }}</td>
+                      <td>-</td>
+                      <td>-</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Highest Scoring Loss</th>
+                      <td>{{ trophies.highest_loss.0 }}</td>
+                      <td>{{ trophies.highest_loss.1 }}</td>
+                      <td>{{ trophies.highest_loss.2 }}</td>
+                      <td>{{ trophies.highest_loss.3 }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Highest Single Week Score</th>
+                      <td>{{ trophies.high_score.0 }}</td>
+                      <td>{{ trophies.high_score.1 }}</td>
+                      <td>{{ trophies.high_score.2 }}</td>
+                      <td>{{ trophies.high_score.3 }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Biggest Margin of Victory</th>
+                      <td>{{ trophies.margin.0 }}</td>
+                      <td>{{ trophies.margin.1 }}</td>
+                      <td>{{ trophies.margin.2 }}</td>
+                      <td>{{ trophies.margin.3 }}</td>
+                    </tr>
+                    {% endif %}
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+
+
+          <div class="row justify-content-center rowone row-eq-height">
+            <div class="col-lg-7" align="center">
+              <div class="boxy"><h2>The Real Schefty </h2></div>
+                <a class="twitter-timeline" data-height="450px"  href="https://twitter.com/AdamSchefter?ref_src=twsrc%5Etfw">Tweets by AdamSchefter</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+              </div>
+            </div>
+          </div>
 
 
   {% endblock %}
