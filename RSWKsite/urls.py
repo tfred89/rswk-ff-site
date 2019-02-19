@@ -22,4 +22,5 @@ urlpatterns = [
     path('past', views.past, name='past'),
     path('', include('basic_app.urls')),
     path('players/<team_abbrev>/', views.player_page, name='players'),
+    path('test', views.test, name='test'),
 ]

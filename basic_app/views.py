@@ -20,6 +20,14 @@ def season(request):
     stats = season_stats()
     return render(request, 'basic_app/season_stats.html', {'stats':stats})
 
+def test(request):
+
+    return render(request, 'basic_app/test.html')
+
+def player_page(request, team_abbrev):
+    team = CurrentSeason.objects.all().filter(game_week=1, team_abbrev=team_abbrev)
+    return render(request, 'basic_app/player.html', {'team':team})
+
 def past(request):
     past_list = PastSeasons.objects.order_by('year')
 
@@ -41,7 +49,3 @@ def past(request):
         totals[key].append(pct)
 
     return render(request, 'basic_app/past_seasons.html', {'past_szn': past_list, 'total':totals})
-
-def player_page(request, team_abbrev):
-    team = CurrentSeason.objects.all().filter(game_week=1, team_abbrev=team_abbrev)
-    return render(request, 'basic_app/player.html', {'team':team})
