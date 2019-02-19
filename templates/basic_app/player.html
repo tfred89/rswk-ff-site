@@ -9,12 +9,6 @@ $(document).ready(function(){
     Chart.defaults.global.defaultFontColor = 'black';
     Chart.defaults.global.defaultFontSize = 16;
 
-    var winWidth = $(window).width();
-    var hideLeg = false;
-    if(winWidth >= 770){
-      hideLeg = true;
-    };
-
     var data = {
       labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
       datasets: [{
@@ -38,7 +32,8 @@ $(document).ready(function(){
               borderColor: "#e8c3b9",
               fill: false
             }
-          ];
+          ]
+        };
 
 
     var options = {
@@ -72,7 +67,7 @@ $(document).ready(function(){
                 }]
             },
             legend: {
-              display: hideLeg,
+              display: true,
               position: 'right',
               labels: {
                 boxWidth: 15,
@@ -95,6 +90,7 @@ $(document).ready(function(){
       data: data,
       options: options
     });
+
 {% endblock %}
 </script>
 
