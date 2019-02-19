@@ -1,6 +1,112 @@
 {% extends "basic_app/base.html" %}
+<script>
+{% block jquery %}
+
+$(document).ready(function(){
+    var canvas = document.getElementById("lineChart");
+    var ctx = canvas.getContext('2d');
+    Chart.defaults.global.responsive = true;
+    Chart.defaults.global.defaultFontColor = 'black';
+    Chart.defaults.global.defaultFontSize = 16;
+
+    var winWidth = $(window).width();
+    var hideLeg = false;
+    if(winWidth >= 770){
+      hideLeg = true;
+    };
+
+    var data = {
+      labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+      datasets: [{
+              data: {{team}},
+              label: "Player Score",
+              borderColor: "#3e95cd",
+              fill: false
+            }, {
+              data: {{hi}},
+              label: "Weekly High Score",
+              borderColor: "#8e5ea2",
+              fill: false
+            }, {
+              data: {{lo}},
+              label: "Weekly Low Score",
+              borderColor: "#3cba9f",
+              fill: false
+            }, {
+              data: {{avg}},
+              label: "Weekly Average",
+              borderColor: "#e8c3b9",
+              fill: false
+            }
+          ];
+
+
+    var options = {
+      responsive: true,
+      title: {
+        display: true,
+        text: "Season Performance",
+        fontStyle: 'bold',
+        fontSize: 22
+      },
+      scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:false
+                    },
+                    scaleLabel: {
+                         display: true,
+                         labelString: 'Points Scored',
+                         fontSize: 20
+                      }
+                }],
+                xAxes: [{
+                    ticks: {
+                        beginAtZero:false
+                    },
+                    scaleLabel: {
+                         display: true,
+                         labelString: 'Gameweek',
+                         fontSize: 20
+                      }
+                }]
+            },
+            legend: {
+              display: hideLeg,
+              position: 'right',
+              labels: {
+                boxWidth: 15,
+                fontSize: 12
+              }
+            },
+            layout:{
+              padding:{
+                top:15,
+                left: 10,
+                right: 10,
+                bottom: 10
+              }
+            }
+    };
+
+    // Chart declaration:
+    var myLineChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: options
+    });
+{% endblock %}
+</script>
+
 {% block body_block %}
 
-<h1>{{ team.0.team_abbrev }}</h1>
+<div class="row justify-content-center rowone row-eq-height">
+  <div class="col-lg-7">
+    <div class="chart-container flex-fill" style ="position: relative;">
+    <canvas id="lineChart" style='display:block'></canvas>
+    </div>
+    <p>Click the players name to toggle the chart view.</p>
+  </div>
+</div>
 
 {% endblock %}

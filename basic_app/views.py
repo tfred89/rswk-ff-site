@@ -17,16 +17,18 @@ def home(request):
     'Scoreboard':score_dict, 'trophies':trophies, 'leaders':dollars})
 
 def season(request):
-    stats = season_stats()
+    stats = season_stats()[0]
     return render(request, 'basic_app/season_stats.html', {'stats':stats})
 
-def test(request):
-
-    return render(request, 'basic_app/test.html')
 
 def player_page(request, team_abbrev):
-    team = CurrentSeason.objects.all().filter(game_week=1, team_abbrev=team_abbrev)
-    return render(request, 'basic_app/player.html', {'team':team})
+    team = CurrentSeason.objects.all().filter(team_abbrev=team_abbrev).values_list('poinst_for')
+    for i in team:
+        i = i[:-1]
+    team = list(team)
+    stats = season_stats()[1]
+    hi, lo, avg = stats[0], stats[1], stats[2]
+    return render(request, 'basic_app/player.html', {'team':team, "hi":hi, 'lo':lo, 'avg':avg})
 
 def past(request):
     past_list = PastSeasons.objects.order_by('year')

@@ -277,15 +277,22 @@ def skittish(league): # outputs dictionary with key=game week, value =[losing sc
 
 def season_stats():
     stats = []
+    h = []
+    l = []
+    a = []
     for i in range(1, gw):
         hi = df[df['Week']==i]['Score'].max()
+        h.append(hi)
         lo = df[df['Week']==i]['Score'].min()
+        l.append(lo)
         avg = df[df['Week']==i]['Score'].mean()
+        a.append(avg)
         std = df[df['Week']==i]['Score'].std()
         stats.append([i, hi, lo, avg, std])
+    graph_stats = [h,l,a]
     for i in stats:
         i[1] = "%.2f" % i[1]
         i[2] = "%.2f" % i[2]
         i[3] = "%.2f" % i[3]
         i[4] = "%.2f" % i[4]
-    return stats
+    return [stats, graph_stats]
