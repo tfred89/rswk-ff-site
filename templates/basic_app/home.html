@@ -2,151 +2,151 @@
 <script>
 {% block jquery %}
 
+$(document).ready(function(){
+    var canvas = document.getElementById("lineChart");
+    var ctx = canvas.getContext('2d');
+    var col = ["#e6194B", "#3cb44b", "#ffe119", "#4363d8", "#f58231", "#42d4f4", "#f032e6", "#fabebe", "#469990", "#e6beff", "#9A6324", "#f6f92f", "#800000", "#aaffc3", "#000075", "#a9a9a9", "#000000"]
+    // Global Options:
+    Chart.defaults.global.responsive = true;
+    Chart.defaults.global.defaultFontColor = 'black';
+    Chart.defaults.global.defaultFontSize = 16;
 
-var canvas = document.getElementById("lineChart");
-var ctx = canvas.getContext('2d');
-var col = ["#e6194B", "#3cb44b", "#ffe119", "#4363d8", "#f58231", "#42d4f4", "#f032e6", "#fabebe", "#469990", "#e6beff", "#9A6324", "#f6f92f", "#800000", "#aaffc3", "#000075", "#a9a9a9", "#000000"]
-// Global Options:
-Chart.defaults.global.responsive = true;
-Chart.defaults.global.defaultFontColor = 'black';
-Chart.defaults.global.defaultFontSize = 16;
+    var winWidth = $(window).width();
+    var hideLeg = false;
+    if(winWidth >= 770){
+      hideLeg = true;
+    };
 
-var winWidth = $(window).width();
-var hideLeg = false;
-if(winWidth >= 770){
-  hideLeg = true;
-};
-
-var data = {
-  labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
-  datasets:[
-  {% for i in week_scores %}{
-      label: "{{i.0}}",
-      fill: false,
-      lineTension: 0.0,
-      backgroundColor: "white",
-      borderColor: col.pop(),
-      borderCapStyle: 'square',
-      borderWidth: 2, // try [5, 15] for instance
-      borderDashOffset: 0.0,
-      borderJoinStyle: 'miter',
-      pointBorderColor: "black",
-      pointBackgroundColor: "white",
-      pointBorderWidth: 1,
-      pointHoverRadius: 4,
-      pointHoverBackgroundColor: "white",
-      pointHoverBorderColor: "green",
-      pointHoverBorderWidth: 1.5,
-      pointRadius: 2,
-      pointHitRadius: 6,
-      // notice the gap in the data and the spanGaps: true
-      data: {{i.1}},
-      spanGaps: true,
-    },
-    {% endfor %}]
-};
-
-// Notice the scaleLabel at the same level as Ticks
-var options = {
-  responsive: true,
-  title: {
-    display: true,
-    text: "Weekly Scores",
-    fontStyle: 'bold',
-    fontSize: 22
-  },
-  scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:false
-                },
-                scaleLabel: {
-                     display: true,
-                     labelString: 'Points Scored',
-                     fontSize: 20
-                  }
-            }],
-            xAxes: [{
-                ticks: {
-                    beginAtZero:false
-                },
-                scaleLabel: {
-                     display: true,
-                     labelString: 'Gameweek',
-                     fontSize: 20
-                  }
-            }]
+    var data = {
+      labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+      datasets:[
+      {% for i in week_scores %}{
+          label: "{{i.0}}",
+          fill: false,
+          lineTension: 0.0,
+          backgroundColor: "white",
+          borderColor: col.pop(),
+          borderCapStyle: 'square',
+          borderWidth: 2, // try [5, 15] for instance
+          borderDashOffset: 0.0,
+          borderJoinStyle: 'miter',
+          pointBorderColor: "black",
+          pointBackgroundColor: "white",
+          pointBorderWidth: 1,
+          pointHoverRadius: 4,
+          pointHoverBackgroundColor: "white",
+          pointHoverBorderColor: "green",
+          pointHoverBorderWidth: 1.5,
+          pointRadius: 2,
+          pointHitRadius: 6,
+          // notice the gap in the data and the spanGaps: true
+          data: {{i.1}},
+          spanGaps: true,
         },
-        legend: {
-          display: hideLeg
-          position: 'right',
-          labels: {
-            boxWidth: 15,
-            fontSize: 12
-          }
-        },
-        layout:{
-          padding:{
-            top:15,
-            left: 10,
-            right: 10,
-            bottom: 10
-          }
+        {% endfor %}]
+    };
+
+    // Notice the scaleLabel at the same level as Ticks
+    var options = {
+      responsive: true,
+      title: {
+        display: true,
+        text: "Weekly Scores",
+        fontStyle: 'bold',
+        fontSize: 22
+      },
+      scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:false
+                    },
+                    scaleLabel: {
+                         display: true,
+                         labelString: 'Points Scored',
+                         fontSize: 20
+                      }
+                }],
+                xAxes: [{
+                    ticks: {
+                        beginAtZero:false
+                    },
+                    scaleLabel: {
+                         display: true,
+                         labelString: 'Gameweek',
+                         fontSize: 20
+                      }
+                }]
+            },
+            legend: {
+              display: hideLeg
+              position: 'right',
+              labels: {
+                boxWidth: 15,
+                fontSize: 12
+              }
+            },
+            layout:{
+              padding:{
+                top:15,
+                left: 10,
+                right: 10,
+                bottom: 10
+              }
+            }
+    };
+
+    // Chart declaration:
+    var myLineChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: options
+    });
+
+    var canvas2 = document.getElementById("barChart");
+    var ctx2 = canvas2.getContext('2d');
+    var labels2 = [];
+    var dataset2 = [];
+
+    {% for i in leaders %}
+    labels2.push("{{i.0}}");
+    dataset2.push({{i.1}});
+    {% endfor %}
+
+    var data2 = {
+      labels: labels2,
+      datasets:[{
+        data: dataset2,
+        backgroundColor: ["#e6194B", "#3cb44b", "#ffe119", "#4363d8", "#f58231", "#42d4f4", "#469990"],
+        borderCapStyle: 'square',
+      }]
+    };
+    var options2 = {
+      responsive: true,
+      title: {
+        display: true,
+        text: "Season Winnings",
+        fontStyle: 'bold',
+        fontSize: 22
+      },
+      layout:{
+        padding:{
+          top:15,
+          left: 10,
+          right: 10,
+          bottom: 10
         }
-};
+      },
+      legend: {
+        display: false
+      },
+    };
 
-// Chart declaration:
-var myLineChart = new Chart(ctx, {
-  type: 'line',
-  data: data,
-  options: options
+    var myBarChart = new Chart(ctx2, {
+        type: 'bar',
+        data: data2,
+        options: options2
+    });
 });
-
-var canvas2 = document.getElementById("barChart");
-var ctx2 = canvas2.getContext('2d');
-var labels2 = [];
-var dataset2 = [];
-
-{% for i in leaders %}
-labels2.push("{{i.0}}");
-dataset2.push({{i.1}});
-{% endfor %}
-
-var data2 = {
-  labels: labels2,
-  datasets:[{
-    data: dataset2,
-    backgroundColor: ["#e6194B", "#3cb44b", "#ffe119", "#4363d8", "#f58231", "#42d4f4", "#469990"],
-    borderCapStyle: 'square',
-  }]
-};
-var options2 = {
-  responsive: true,
-  title: {
-    display: true,
-    text: "Season Winnings",
-    fontStyle: 'bold',
-    fontSize: 22
-  },
-  layout:{
-    padding:{
-      top:15,
-      left: 10,
-      right: 10,
-      bottom: 10
-    }
-  },
-  legend: {
-    display: false
-  },
-};
-
-var myBarChart = new Chart(ctx2, {
-    type: 'bar',
-    data: data2,
-    options: options2
-});
-
 {% endblock %}
 </script>
 
