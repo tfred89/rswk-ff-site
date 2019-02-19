@@ -22,10 +22,7 @@ def season(request):
 
 
 def player_page(request, team_abbrev):
-    team = CurrentSeason.objects.all().filter(team_abbrev=team_abbrev).values_list('poinst_for')
-    for i in team:
-        i = i[:-1]
-    team = list(team)
+    team = list(CurrentSeason.objects.all().filter(team_abbrev=team_abbrev).values_list('poinst_for', flat=True))
     stats = season_stats()[1]
     hi, lo, avg = stats[0], stats[1], stats[2]
     return render(request, 'basic_app/player.html', {'team':team, "hi":hi, 'lo':lo, 'avg':avg})
