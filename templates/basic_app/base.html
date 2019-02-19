@@ -88,7 +88,7 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbar-dropdown-menu">
               {% for i in player_list %}
-              <a class="dropdown-item" href="#">{{i}}</a>
+              <a class="dropdown-item" href="{% url 'players' team_abbrev=i %}">{{i}}</a>
 
               {% endfor %}
               <!-- Use this to separate a new link: -->

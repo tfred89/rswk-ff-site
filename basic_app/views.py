@@ -41,3 +41,7 @@ def past(request):
         totals[key].append(pct)
 
     return render(request, 'basic_app/past_seasons.html', {'past_szn': past_list, 'total':totals})
+
+def player_page(request, team_abbrev):
+    team = CurrentSeason.objects.all().filter(game_week=1, team_abbrev=team_abbrev)
+    return render(request, 'basic_app_test/player.html', {'team':team})
