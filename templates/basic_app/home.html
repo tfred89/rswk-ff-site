@@ -11,6 +11,12 @@ Chart.defaults.global.responsive = true;
 Chart.defaults.global.defaultFontColor = 'black';
 Chart.defaults.global.defaultFontSize = 16;
 
+var winWidth = $(window).width();
+var hideLeg = false;
+if(winWidth >= 770){
+  hideLeg = true;
+};
+
 var data = {
   labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
   datasets:[
@@ -72,7 +78,7 @@ var options = {
             }]
         },
         legend: {
-          display: true,
+          display: hideLeg
           position: 'right',
           labels: {
             boxWidth: 15,
@@ -129,7 +135,10 @@ var options2 = {
       right: 10,
       bottom: 10
     }
-  }
+  },
+  legend: {
+    display: false
+  },
 };
 
 var myBarChart = new Chart(ctx2, {
