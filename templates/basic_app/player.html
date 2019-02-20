@@ -68,8 +68,7 @@ $(document).ready(function(){
                          labelString: 'Gameweek',
                          fontSize: 20
                       }
-                }]
-            },
+                }],
             legend: {
               display: true,
               position: 'right',
@@ -86,6 +85,7 @@ $(document).ready(function(){
                 bottom: 10
               }
             }
+          }
     };
 
     // Chart declaration:
@@ -94,7 +94,7 @@ $(document).ready(function(){
       data: data,
       options: options
     });
-
+});
 {% endblock %}
 </script>
 
