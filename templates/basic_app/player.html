@@ -15,22 +15,26 @@ $(document).ready(function(){
               data: {{team}},
               label: "Player Score",
               borderColor: "#3e95cd",
-              fill: false
+              fill: false,
+              lineTension: 0.1,
             }, {
               data: {{hi}},
               label: "Weekly High Score",
               borderColor: "#8e5ea2",
-              fill: false
+              fill: false,
+              lineTension: 0.1,
             }, {
               data: {{lo}},
               label: "Weekly Low Score",
               borderColor: "#3cba9f",
-              fill: false
+              fill: false,
+              lineTension: 0.1,
             }, {
               data: {{avg}},
               label: "Weekly Average",
               borderColor: "#e8c3b9",
-              fill: false
+              fill: false,
+              lineTension: 0.1,
             }
           ]
         };
@@ -98,10 +102,9 @@ $(document).ready(function(){
 
 <div class="row justify-content-center rowone row-eq-height">
   <div class="col-lg-7">
-    <div class="chart-container flex-fill" style ="position: relative;">
+    <div class="chart-container flex-fill" style ="position: relative">
     <canvas id="lineChart" style='display:block'></canvas>
     </div>
-    <p>Click the players name to toggle the chart view.</p>
   </div>
 </div>
 
