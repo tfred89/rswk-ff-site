@@ -47,7 +47,7 @@ def gameweek(league): #finds currrent week
         return count
 
 #gw = gameweek(league)
-gw = 16 #this is temporary, delete as needed
+gw = 17 #this is temporary, delete as needed
 def cur_db(gw):
     frame = []
     scores = {}
