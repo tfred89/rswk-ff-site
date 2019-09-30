@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Player(models.Model):
     player_name = models.CharField(max_length=100, unique=True, primary_key=True)
 
@@ -36,3 +37,15 @@ class CurrentSeason(models.Model):
 
     def __str__(self):
         return str(self.game_week)
+
+
+class Prize(models.Model):
+    name = models.CharField(max_length=100)
+    amount = models.IntegerField()
+
+    def __str__(self):
+        return models.name
+
+
+class Skittish(models.Model):
+    pass

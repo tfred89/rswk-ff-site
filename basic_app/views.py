@@ -16,6 +16,12 @@ def home(request):
     return render(request, 'basic_app/home.html', {'week_scores':player,
     'Scoreboard':score_dict, 'trophies':trophies, 'leaders':dollars})
 
+'''
+- Week Scores: return list of [owner_name, [list of weekly scores for graphing]]
+- Scoreboard: return list of [rank, team, W, L, PF, PA]
+- Trophies: Dict of trophies with amount list as the value
+'''
+
 def season(request):
     stats = season_stats()[0]
     return render(request, 'basic_app/season_stats.html', {'stats':stats})
