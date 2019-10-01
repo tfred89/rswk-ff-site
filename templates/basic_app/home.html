@@ -338,19 +338,19 @@ $(document).ready(function(){
                     {% for i in skittish.0 %}
                     <tr>
                       <td>{{ i.0 }}</td>
-                      <td>{{ 1.2 }}</td>
-                      <td>{{ 1.1 }}</td>
+                      <td>{{ i.2 }}</td>
+                      <td>{{ i.1 }}</td>
                     </tr>
                     {% endfor %}
                   </tbody>
                   <thead class="thead-light">
                     <tr>
-                      <th scope="col">Remaing Teams</th>
+                      <th colspan="3" scope="col">Remaing Teams</th>
                     </tr>
                   <tbody>
                     {% for team in skittish.1 %}
                     <tr>
-                      <th scope="col">team</th>
+                      <td colspan="3" scope="col">{{team}}</td>
                     </tr>
                   {% endfor %}
                   </tbody>
