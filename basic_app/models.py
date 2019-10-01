@@ -25,6 +25,7 @@ class PastSeasons(models.Model):
 
 
 class CurrentSeason(models.Model):
+    year = models.IntegerField()
     game_week = models.IntegerField()
     team_name = models.CharField(max_length=100, unique=False)
     team_abbrev = models.CharField(max_length=100, unique=False)
@@ -33,7 +34,6 @@ class CurrentSeason(models.Model):
     points_against = models.FloatField()
     result = models.IntegerField(default=0)
     owner = models.ForeignKey(Player, on_delete=models.CASCADE)
-
 
     def __str__(self):
         return str(self.game_week)
@@ -49,3 +49,13 @@ class Prize(models.Model):
 
 class Skittish(models.Model):
     pass
+
+
+# class Rankings(models.Model):
+#     game_week = models.IntegerField()
+#     team_name = models.CharField(max_length=100, unique=False)
+#     team_abbrev = models.CharField(max_length=100, unique=False)
+#     poinst_for = models.FloatField()
+#     points_against = models.FloatField()
+#     owner = models.ForeignKey(Player, on_delete=models.CASCADE)
+#     place = models.IntegerField()

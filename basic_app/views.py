@@ -1,18 +1,18 @@
 from django.shortcuts import render
 from django.db.models import Sum
-from .models import CurrentSeason, PastSeasons, Player
-from basic_app.espn_api import owners, scoreboard_dict, record, trophies, dollars, season_stats
+from .models import CurrentSeason, PastSeasons
+from basic_app.espn_api import season_stats
+from basic_app.api_functions import league, get_standings, week_scores, get_trophies, skittish
 
 
 
 # Create your views here.
 def home(request):
-    score_dict = scoreboard_dict(record)
-    player = []
-    for a in owners:
-        scores = list(CurrentSeason.objects.filter(owner=a).order_by('game_week').values_list('poinst_for', flat=True))
-        if len(scores)>0:
-            player.append([a, scores])
+    player = week_scores(league)
+    score_dict = get_standings(league)
+    t_and_l = get_trophies(league)
+    trophies = t_and_l['trophies']
+    dollars = t_and_l['dollars']
     return render(request, 'basic_app/home.html', {'week_scores':player,
     'Scoreboard':score_dict, 'trophies':trophies, 'leaders':dollars})
 

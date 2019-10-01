@@ -252,9 +252,10 @@ for key, value in leaders.items():
 def skittish(league): # outputs dictionary with key=game week, value =[losing score, team name], along with a list of survivors
     skitted = {}
     out=[]
-    survivors = ['The Dragons']
-    for w in range(1, 14):
-        matchups = league.scoreboard(week=w)
+    week = league.nfl_week
+    survivors = []
+    for w in range(1, week):
+        matchups = league.box_scores(w)
         score = {}
         for i in matchups:
             if i.home_team.team_name not in skitted:
