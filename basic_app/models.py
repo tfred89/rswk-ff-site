@@ -25,7 +25,7 @@ class PastSeasons(models.Model):
 
 
 class CurrentSeason(models.Model):
-    year = models.IntegerField()
+    # year = models.IntegerField(blank=True, null=True)
     game_week = models.IntegerField()
     team_name = models.CharField(max_length=100, unique=False)
     team_abbrev = models.CharField(max_length=100, unique=False)
@@ -39,16 +39,16 @@ class CurrentSeason(models.Model):
         return str(self.game_week)
 
 
-class Prize(models.Model):
-    name = models.CharField(max_length=100)
-    amount = models.IntegerField()
-
-    def __str__(self):
-        return models.name
-
-
-class Skittish(models.Model):
-    pass
+# class Prize(models.Model):
+#     name = models.CharField(max_length=100)
+#     amount = models.IntegerField()
+#
+#     def __str__(self):
+#         return models.name
+#
+#
+# class Skittish(models.Model):
+#     pass
 
 
 # class Rankings(models.Model):
