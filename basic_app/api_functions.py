@@ -8,6 +8,9 @@ league = League(league_id, year, espn_s2, swid)
 
 standings = league.standings()
 
+def send_week(league):
+    return league.nfl_week
+
 def margin_and_loss(league):
     week = league.nfl_week
     obj = {'margin': [0, 0], 'big_loss': [0, 0]}
@@ -32,6 +35,8 @@ def get_standings(league):
     output = []
     for i in standings:
         x = [i.team_name, i.points_for, i.points_against, i.wins, i.losses, i.standing]
+        x[1] = "%.2f" % x[1]
+        x[2] = "%.2f" % x[2]
         output.append(x)
     return output
 
@@ -60,7 +65,7 @@ def get_trophies(league):
         'high_points': ['$25', league.top_scorer().team_name],
         'week10_16': ['$20', 'TBD'],
         'highest_loss': ['$10', bl[1], bl[0], bl[2]],
-        'high_score': ['$10', league.top_scored_week()[0].team_name, league.top_scored_week()[1], 'TBD'],
+        'high_score': ['$10', league.top_scored_week()[0].team_name, league.top_scored_week()[1], '3'],
         'margin': ['$10', margin[2], margin[1], margin[3]],
         'most_against': ['$10', league.most_points_against().team_name],
         'best_miss': ['$25', 'TBD']

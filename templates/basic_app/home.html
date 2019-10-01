@@ -12,13 +12,17 @@ $(document).ready(function(){
     Chart.defaults.global.defaultFontSize = 16;
 
     var winWidth = $(window).width();
+    var label_length = [];
+    for (var i = 1; i< {{week}}; i++){
+      label_length.push(i);
+    }
     var hideLeg = false;
     if(winWidth >= 770){
       hideLeg = true;
     };
 
     var data = {
-      labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+      labels: label_length,
       datasets:[
       {% for i in week_scores %}{
           label: "{{i.0}}",
@@ -208,44 +212,6 @@ $(document).ready(function(){
           </div>
 
 
-
-          <div class="row justify-content-center rowone row-eq-height">
-            <div class="col-lg-7">
-              <div class="table-responsive boxy">
-                <h2>Current Projected Winnings</h2>
-                <table class="table table-sm table-striped table-hover">
-                  <thead class="thead-light">
-                    {% if leaders %}
-                    <tr>
-                      <th scope="col">Team</th>
-                      <th scope="col">Amount</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for p in leaders %}
-                    <tr>
-                      <td>{{ p.0 }}</td>
-                      <td>${{p.1}}</td>
-                    </tr>
-
-                    {% endfor %}
-                    {% endif %}
-
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-          <div class="row justify-content-center rowone row-eq-height">
-            <div class="col-lg-7">
-              <div class="chart-container flex-fill" style ="position: relative;">
-              <canvas id="barChart" style='display:block;'></canvas>
-              </div>
-            </div>
-          </div>
-
-
           <div class="row justify-content-center rowone row-eq-height">
             <div class="col-lg-7">
               <div class="table-responsive boxy">
@@ -355,9 +321,82 @@ $(document).ready(function(){
           </div>
 
 
+          <div class="row justify-content-center rowone row-eq-height">
+            <div class="col-lg-7">
+              <div class="table-responsive boxy">
+                <h2>Survival of the Skittish Results</h2>
+                <table class="table table-sm table-striped table-hover">
+                  <thead class="thead-light">
+                    {% if skittish %}
+                    <tr>
+                      <th scope="col">Week Eliminated</th>
+                      <th scope="col">Team Name</th>
+                      <th scope="col">Score</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for i in skittish.0 %}
+                    <tr>
+                      <td>{{ i.0 }}</td>
+                      <td>{{ 1.2 }}</td>
+                      <td>{{ 1.1 }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                  <thead class="thead-light">
+                    <tr>
+                      <th scope="col">Remaing Teams</th>
+                    </tr>
+                  <tbody>
+                    {% for team in skittish.1 %}
+                    <tr>
+                      <th scope="col">team</th>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                  {% endif %}
 
 
+                </table>
+              </div>
+            </div>
+          </div>
 
+          <div class="row justify-content-center rowone row-eq-height">
+            <div class="col-lg-7">
+              <div class="table-responsive boxy">
+                <h2>Current Projected Winnings</h2>
+                <table class="table table-sm table-striped table-hover">
+                  <thead class="thead-light">
+                    {% if leaders %}
+                    <tr>
+                      <th scope="col">Team</th>
+                      <th scope="col">Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for p in leaders %}
+                    <tr>
+                      <td>{{ p.0 }}</td>
+                      <td>${{p.1}}</td>
+                    </tr>
+
+                    {% endfor %}
+                    {% endif %}
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="row justify-content-center rowone row-eq-height">
+            <div class="col-lg-7">
+              <div class="chart-container flex-fill" style ="position: relative;">
+              <canvas id="barChart" style='display:block;'></canvas>
+              </div>
+            </div>
+          </div>
 
 
           <div class="row justify-content-center rowone row-eq-height">

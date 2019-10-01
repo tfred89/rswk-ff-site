@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.db.models import Sum
 from .models import CurrentSeason, PastSeasons
 from basic_app.espn_api import season_stats
-from basic_app.api_functions import league, get_standings, week_scores, get_trophies, skittish
+from basic_app.api_functions import league, get_standings, week_scores, get_trophies, skittish, send_week
 
 
 
@@ -11,10 +11,12 @@ def home(request):
     player = week_scores(league)
     score_dict = get_standings(league)
     t_and_l = get_trophies(league)
+    week = send_week(league)
     trophies = t_and_l['trophies']
     dollars = t_and_l['dollars']
+    skit = skittish(league)
     return render(request, 'basic_app/home.html', {'week_scores':player,
-    'Scoreboard':score_dict, 'trophies':trophies, 'leaders':dollars})
+    'Scoreboard':score_dict, 'trophies':trophies, 'leaders':dollars, 'week':week, 'skittish':skit})
 
 '''
 - Week Scores: return list of [owner_name, [list of weekly scores for graphing]]
