@@ -26,29 +26,29 @@ class PastSeasons(models.Model):
         return str(self.year)
 
 
-class CurrentSeasonCustom(models.QuerySet):
-
-    def week_avg(self, gw):
-        return self.filter(year=2019, game_week=gw).aggregate(Avg('points_for'))
-
-    def week_avg_list(self):
-        output = []
-        weeks = self.filter(year=2019).values_list('game_week', flat=True).distinct()
-        for w in weeks:
-            num = self.week_avg(w)
-            score = num.get('points_for__avg')
-            output.append(score)
-        return output
-
-    def full_stats(self):
-        weeks = list(self.filter(year=2019).values_list('game_week', flat=True).distinct())
-        out = []
-        for gw in weeks:
-            qs = self.filter(year=2019, game_week=gw).aggregate(Max('points_for'), Min('points_for'), Avg('points_for'), StdDev('points_for'))
-            adder = [round(i, 1) for i in qs.values()]
-            adder = [gw] + adder
-            out.append(adder)
-        return out
+# class CurrentSeasonCustom(models.QuerySet):
+#
+#     def week_avg(self, gw):
+#         return self.filter(year=2019, game_week=gw).aggregate(Avg('points_for'))
+#
+#     def week_avg_list(self):
+#         output = []
+#         weeks = self.filter(year=2019).values_list('game_week', flat=True).distinct()
+#         for w in weeks:
+#             num = self.week_avg(w)
+#             score = num.get('points_for__avg')
+#             output.append(score)
+#         return output
+#
+#     def full_stats(self):
+#         weeks = list(self.filter(year=2019).values_list('game_week', flat=True).distinct())
+#         out = []
+#         for gw in weeks:
+#             qs = self.filter(year=2019, game_week=gw).aggregate(Max('points_for'), Min('points_for'), Avg('points_for'), StdDev('points_for'))
+#             adder = [round(i, 1) for i in qs.values()]
+#             adder = [gw] + adder
+#             out.append(adder)
+#         return out
 
 
 class CurrentSeason(models.Model):
@@ -62,9 +62,9 @@ class CurrentSeason(models.Model):
     result = models.IntegerField(default=0)
     owner = models.ForeignKey(Player, on_delete=models.CASCADE)
     point_dif = models.FloatField(blank=True, null=True)
-    
-    objects = models.Manager()
-    stats = CurrentSeasonCustom.as_manager()
+
+    # objects = models.Manager()
+    # stats = CurrentSeasonCustom.as_manager()
 
     @property
     def margin(self):
