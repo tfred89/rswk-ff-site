@@ -19,7 +19,7 @@ def add_player_ids(league):
         if name == 'Logan Ivy':
             name = 'Justin Welsh'
         p = Player.objects.get(player_name=name)
-        p.player_id and= id
+        p.player_id = id
         p.save()
         count += 1
     print(f"{count} player ids added")
