@@ -117,7 +117,7 @@ def load_skittish(league):
     for player in players:
         Skittish.objects.create(
                     player=player,
-                    eliminiated=False
+                    eliminated=False
                     )
         count += 1
     print(f"{count} skittish objects created")
@@ -140,13 +140,7 @@ def update_skittish(week, year):
 
 
 if __name__ == '__main__':
-    print('adding player Ids')
-    add_player_ids(league_load)
-    print('adding current season data')
-    update_db_todate(league_load)
-    print('adding rankings')
-    add_rankings(league_load)
-    print('creating skittish objects')
+
     load_skittish(league_load)
     print('updating skittish')
     for week in range(1,11):
