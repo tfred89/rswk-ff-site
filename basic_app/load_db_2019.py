@@ -1,6 +1,13 @@
-from .models import Rankings, CurrentSeason, Player, Skittish
-from .api_functions import league as espn_league
+import os
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "RSWKsite.settings")
+
+import django
+django.setup()
+
+from basic_app.models import Rankings, CurrentSeason, Player, Skittish
+from basic_app.api_functions import league as espn_league
 from django.db.models import Min
+
 league_load = espn_league
 '''
 Update player model with player_id
@@ -132,15 +139,17 @@ def update_skittish(week, year):
     get_skit.save()
 
 
-print('adding player Ids')
-add_player_ids(league_load)
-print('adding current season data')
-update_db_todate(league_load)
-print('adding rankings')
-add_rankings(league_load)
-print('creating skittish objects')
-load_skittish(league_load)
-print('updating skittish')
-for week in range(1,11):
-    update_skittish(week, 2019)
-    print(f"skittish week {week} updated")
+if __name__ == '__main__':
+    print('adding player Ids')
+    add_player_ids(league_load)
+    print('adding current season data')
+    update_db_todate(league_load)
+    print('adding rankings')
+    add_rankings(league_load)
+    print('creating skittish objects')
+    load_skittish(league_load)
+    print('updating skittish')
+    for week in range(1,11):
+        update_skittish(week, 2019)
+        print(f"skittish week {week} updated")
+    print("populating complete")
