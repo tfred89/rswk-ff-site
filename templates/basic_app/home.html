@@ -5,7 +5,7 @@
 $(document).ready(function(){
     var canvas = document.getElementById("lineChart");
     var ctx = canvas.getContext('2d');
-    var col = ["#e6194B", "#3cb44b", "#ffe119", "#4363d8", "#f58231", "#42d4f4", "#f032e6", "#fabebe", "#469990", "#e6beff", "#9A6324", "#f6f92f", "#800000", "#aaffc3", "#000075", "#a9a9a9", "#000000"]
+    var col = ["#FFBF00", "#e6194B", "#3cb44b", "#ffe119", "#4363d8", "#f58231", "#42d4f4", "#f032e6", "#fabebe", "#469990", "#e6beff", "#9A6324", "#f6f92f", "#800000", "#aaffc3", "#000075", "#a9a9a9", "#000000"]
     // Global Options:
     Chart.defaults.global.responsive = true;
     Chart.defaults.global.defaultFontColor = 'black';
@@ -43,6 +43,7 @@ $(document).ready(function(){
           pointHoverBorderWidth: 1.5,
           pointRadius: 2,
           pointHitRadius: 6,
+          hidden: ("{{i.0}}" === 'Weekly Avg') ? false : true,
           // notice the gap in the data and the spanGaps: true
           data: {{i.1}},
           spanGaps: true,
@@ -106,6 +107,8 @@ $(document).ready(function(){
       options: options
     });
 
+
+
     var canvas2 = document.getElementById("barChart");
     var ctx2 = canvas2.getContext('2d');
     var labels2 = [];
@@ -151,6 +154,7 @@ $(document).ready(function(){
         options: options2
     });
 });
+
 {% endblock %}
 </script>
 

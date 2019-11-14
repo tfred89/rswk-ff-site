@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
                 ('game_week', models.IntegerField()),
                 ('team_name', models.CharField(max_length=100)),
                 ('team_abbrev', models.CharField(max_length=100)),
-                ('poinst_for', models.FloatField()),
+                ('points_for', models.FloatField()),
                 ('opponent', models.CharField(max_length=100)),
                 ('points_against', models.FloatField()),
                 ('result', models.IntegerField(default=0)),

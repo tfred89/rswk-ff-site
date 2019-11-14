@@ -4,7 +4,7 @@ import pandas as pd
 # wip, add GW function and DB addition once list is created
 def add_ranks():
     clist = list(CurrentSeason.objects.filter(year=2019).values_list('game_week',
-                 'team_name', 'team_abbrev', 'poinst_for', 'opponent',
+                 'team_name', 'team_abbrev', 'points_for', 'opponent',
                  'points_against', 'result', 'owner'))
     cols = ['Week', 'Team Name', 'Abbrev', 'Score', 'Opponent', 'Points against', 'Result', 'Owner']
     df = pd.DataFrame.from_records(clist, columns=cols)

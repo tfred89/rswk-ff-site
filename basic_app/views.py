@@ -1,22 +1,21 @@
 from django.shortcuts import render
 from django.db.models import Sum
 from .models import CurrentSeason, PastSeasons
-from basic_app.espn_api import season_stats
-from basic_app.api_functions import league, get_standings, week_scores, get_trophies, skittish, send_week
-
-
+from basic_app.espn_api import season_stats, old_season_stats
+from basic_app.api_functions import get_standings, week_scores, get_trophies, skittish, get_week
 
 # Create your views here.
 def home(request):
-    player = week_scores(league)
-    score_dict = get_standings(league)
-    t_and_l = get_trophies(league)
-    week = send_week(league)
+    player = week_scores()
+    score_dict = get_standings()
+    t_and_l = get_trophies()
     trophies = t_and_l['trophies']
     dollars = t_and_l['dollars']
-    skit = skittish(league)
-    return render(request, 'basic_app/home.html', {'week_scores':player,
-    'Scoreboard':score_dict, 'trophies':trophies, 'leaders':dollars, 'week':week, 'skittish':skit})
+    skit = skittish()
+    week = get_week()
+    return render(request, 'basic_app/home.html', {'week_scores': player,
+                                                   'Scoreboard': score_dict, 'trophies': trophies, 'leaders': dollars, 'week': week, 'skittish': skit})
+
 
 '''
 - Week Scores: return list of [owner_name, [list of weekly scores for graphing]]
@@ -24,18 +23,21 @@ def home(request):
 - Trophies: Dict of trophies with amount list as the value
 '''
 
+
 def season(request):
-    stats = season_stats()[0]
-    return render(request, 'basic_app/season_stats.html', {'stats':stats})
+    stats = season_stats()
+    return render(request, 'basic_app/season_stats.html', {'stats': stats})
 
 
 def player_page(request, team_abbrev):
-    team = list(CurrentSeason.objects.all().filter(team_abbrev=team_abbrev).order_by('game_week').values_list('poinst_for', flat=True))
-    stats = season_stats()[1]
+    team = list(CurrentSeason.objects.all().filter(year=2019, team_abbrev=team_abbrev).order_by(
+        'game_week').values_list('points_for', flat=True))
+    stats = old_season_stats()[1]
     hi, lo, avg = stats[0], stats[1], stats[2]
     for i in avg:
         i = float(format(i, '.1f'))
-    return render(request, 'basic_app/player.html', {'team':team, "hi":hi, 'lo':lo, 'avg':avg})
+    return render(request, 'basic_app/player.html', {'team': team, "hi": hi, 'lo': lo, 'avg': avg})
+
 
 def past(request):
     past_list = PastSeasons.objects.order_by('year')
@@ -49,12 +51,13 @@ def past(request):
         else:
             totals[c[0]] = [c[1], c[2]]
     for key in totals.keys():
-        szn = list(CurrentSeason.objects.filter(owner=key).aggregate(Sum('result')).values())[0]
+        szn = list(CurrentSeason.objects.filter(
+            owner=key).aggregate(Sum('result')).values())[0]
         cur = totals[key]
         if type(szn) == int:
             cur[0] += szn
             cur[1] += (16 - szn)
-        pct = "%.3f" % float(cur[0]/(cur[0] + cur[1]))
+        pct = "%.3f" % float(cur[0] / (cur[0] + cur[1]))
         totals[key].append(pct)
 
-    return render(request, 'basic_app/past_seasons.html', {'past_szn': past_list, 'total':totals})
+    return render(request, 'basic_app/past_seasons.html', {'past_szn': past_list, 'total': totals})

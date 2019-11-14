@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'RSWKsite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'rswkff',
+        'NAME': 'rswk',
         'USER':'postgres',
         'PASSWORD':'nosnos8*',
         'HOST':'localhost',
