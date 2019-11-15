@@ -62,7 +62,8 @@ def past(request):
             cur_losses = szn - len(current)
             cur[0] += szn
             cur[1] += cur_losses
-        pct = "%.3f" % float(cur[0] / (cur[0] + cur[1]))
+        pct = (cur[0] / (cur[0] + cur[1])) * 100
+        pct = str(round(pct, 1)) + "%"
         totals[key].append(pct)
     sorted_totals = [[k, v] for k, v in totals.items()]
     st = []
@@ -70,6 +71,4 @@ def past(request):
         x = [i[0]] + i[1]
         st.append(x)
     st.sort(key=lambda x: x[3], reverse=True)
-    for line in st:
-        line[3] = str(line[3]*100) + "%"
     return render(request, 'basic_app/past_seasons.html', {'past_szn': past_list, 'total': st})
