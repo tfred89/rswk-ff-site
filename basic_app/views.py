@@ -1,10 +1,9 @@
 from django.shortcuts import render
 from django.db.models import Sum
 from .models import CurrentSeason, PastSeasons
-from basic_app.espn_api import season_stats, old_season_stats
-from basic_app.api_functions import get_standings, week_scores, get_trophies, skittish, get_week
+from basic_app.api_functions import get_standings, week_scores, get_trophies, skittish, get_week, season_stats, league_graph_stats
 
-# Create your views here.
+
 def home(request):
     player = week_scores()
     score_dict = get_standings()
@@ -14,7 +13,12 @@ def home(request):
     skit = skittish()
     week = get_week()
     return render(request, 'basic_app/home.html', {'week_scores': player,
-                                                   'Scoreboard': score_dict, 'trophies': trophies, 'leaders': dollars, 'week': week, 'skittish': skit})
+                                                   'Scoreboard': score_dict,
+                                                   'trophies': trophies,
+                                                   'leaders': dollars,
+                                                   'week': week,
+                                                   'skittish': skit}
+                                                   )
 
 
 '''
@@ -32,10 +36,8 @@ def season(request):
 def player_page(request, team_abbrev):
     team = list(CurrentSeason.objects.all().filter(year=2019, team_abbrev=team_abbrev).order_by(
         'game_week').values_list('points_for', flat=True))
-    stats = old_season_stats()[1]
+    stats = league_graph_stats()
     hi, lo, avg = stats[0], stats[1], stats[2]
-    for i in avg:
-        i = float(format(i, '.1f'))
     return render(request, 'basic_app/player.html', {'team': team, "hi": hi, 'lo': lo, 'avg': avg})
 
 
