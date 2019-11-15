@@ -48,6 +48,7 @@ def past(request):
     totals = []
     # add current season wins and losses
     for player in owners:
+        name = player
         current = CurrentSeason.objects.filter(year=2019, owner=player)
         stats = PastSeasons.stats.player_stats(player)
         szn = list(current.aggregate(Sum('result')).values())[0]
@@ -58,5 +59,6 @@ def past(request):
         pct = (stats['wins'] / (stats['wins'] + stats['losses'])) * 100
         pct = str(round(pct, 1)) + "%"
         stats['win_pct'] = pct
+        stats['player'] = name
         totals.appen(stats)
     return render(request, 'basic_app/past_seasons.html', {'past_szn': past_list, 'total': totals})
