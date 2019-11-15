@@ -46,19 +46,22 @@ def past(request):
 
     clist = list(PastSeasons.objects.values_list('owner', 'wins', 'losses'))
     totals = {}
+    # add items to dict
     for c in clist:
         if c[0] in totals:
             totals[c[0]][0] += c[1]
             totals[c[0]][1] += c[2]
         else:
             totals[c[0]] = [c[1], c[2]]
+    # add current season wins and losses
     for key in totals.keys():
-        szn = list(CurrentSeason.objects.filter(year=2019,
-            owner=key).aggregate(Sum('result')).values())[0]
         cur = totals[key]
+        current = CurrentSeason.objects.filter(year=2019, owner=key)
+        szn = list(current.aggregate(Sum('result')).values())[0]
+        cur_losses = szn - len(current)
         if type(szn) == int:
             cur[0] += szn
-            cur[1] += (16 - szn)
+            cur[1] += cur_losses
         pct = "%.3f" % float(cur[0] / (cur[0] + cur[1]))
         totals[key].append(pct)
     sorted_totals = [[k, v] for k, v in totals.items()]
@@ -67,4 +70,6 @@ def past(request):
         x = [i[0]] + i[1]
         st.append(x)
     st.sort(key=lambda x: x[3], reverse=True)
+    for line in st:
+        line[3] = str(line[3]*100) + "%"
     return render(request, 'basic_app/past_seasons.html', {'past_szn': past_list, 'total': st})
