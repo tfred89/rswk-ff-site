@@ -15,8 +15,7 @@ class PastQS(models.QuerySet):
         stats = self.filter(owner=player).aggregate(Sum('wins'), Sum('losses'))
         wins = stats.get('wins__sum')
         losses = stats.get('losses__sum')
-        name = stats.owner.player_name
-        obj = {'player': name, 'wins': wins, 'losses': losses}
+        obj = {'wins': wins, 'losses': losses}
         return obj
 
 class PastSeasons(models.Model):
