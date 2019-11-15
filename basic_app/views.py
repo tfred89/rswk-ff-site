@@ -53,7 +53,7 @@ def past(request):
         stats = PastSeasons.stats.player_stats(player)
         szn = list(current.aggregate(Sum('result')).values())[0]
         if type(szn) == int:
-            cur_losses = szn - len(current)
+            cur_losses = len(current) - szn
             stats['wins'] += szn
             stats['losses'] += cur_losses
         pct = (stats['wins'] / (stats['wins'] + stats['losses'])) * 100

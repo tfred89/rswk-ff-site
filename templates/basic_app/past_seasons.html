@@ -15,7 +15,7 @@
                   <th scope="col">Win Percentage</th>
                 </tr>
               </thead>
-              {% for i in total|dictsort:"win_pct" %}
+              {% for i in total|dictsortreversed:"win_pct" %}
 
               <tbody>
                 <tr>
