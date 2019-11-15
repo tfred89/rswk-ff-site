@@ -44,31 +44,19 @@ def player_page(request, team_abbrev):
 def past(request):
     past_list = PastSeasons.objects.order_by('year').order_by('place')
 
-    clist = list(PastSeasons.objects.values_list('owner', 'wins', 'losses'))
-    totals = {}
-    # add items to dict
-    for c in clist:
-        if c[0] in totals:
-            totals[c[0]][0] += c[1]
-            totals[c[0]][1] += c[2]
-        else:
-            totals[c[0]] = [c[1], c[2]]
+    owners = past_list.distinct('owner').values_list('owner', flat=True)
+    totals = []
     # add current season wins and losses
-    for key in totals.keys():
-        current = CurrentSeason.objects.filter(year=2019, owner=key)
-        cur = totals[key]
+    for player in owners:
+        current = CurrentSeason.objects.filter(year=2019, owner=player)
+        stats = PastSeasons.stats.player_stats(player)
         szn = list(current.aggregate(Sum('result')).values())[0]
         if type(szn) == int:
             cur_losses = szn - len(current)
-            cur[0] += szn
-            cur[1] += cur_losses
-        pct = (cur[0] / (cur[0] + cur[1])) * 100
+            stats['wins'] += szn
+            stats['losses'] += cur_losses
+        pct = (stats['wins'] / (stats['wins'] + stats['losses'])) * 100
         pct = str(round(pct, 1)) + "%"
-        totals[key].append(pct)
-    sorted_totals = [[k, v] for k, v in totals.items()]
-    st = []
-    for i in sorted_totals:
-        x = [i[0]] + i[1]
-        st.append(x)
-    st.sort(key=lambda x: x[3], reverse=True)
-    return render(request, 'basic_app/past_seasons.html', {'past_szn': past_list, 'total': st})
+        stats['win_pct'] = pct
+        totals.appen(stats)
+    return render(request, 'basic_app/past_seasons.html', {'past_szn': past_list, 'total': totals})

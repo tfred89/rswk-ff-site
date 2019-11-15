@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Avg, Max, Min, StdDev
+from django.db.models import Avg, Max, Min, StdDev, Sum
 
 
 class Player(models.Model):
@@ -9,6 +9,15 @@ class Player(models.Model):
     def __str__(self):
         return self.player_name
 
+class PastQS(models.QuerySet):
+
+    def player_stats(self, player):
+        stats = self.filter(owner=player).aggregate(Sum('wins'), Sum('losses'))
+        wins = stats.get('wins__sum')
+        losses = stats.get('losses__sum')
+        name = stats.owner.player_name
+        obj = {'player': name, 'wins': wins, "losses" losses}
+        return obj
 
 class PastSeasons(models.Model):
     year = models.IntegerField()
@@ -20,6 +29,9 @@ class PastSeasons(models.Model):
     ties = models.IntegerField()
     points_for = models.FloatField()
     points_against = models.FloatField()
+
+    objects = models.Manager()
+    stats = PastQS.as_manager()
 
 
     def __str__(self):
