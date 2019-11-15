@@ -13,6 +13,8 @@
                   <th scope="col">Wins</th>
                   <th scope="col">Losses</th>
                   <th scope="col">Win Percentage</th>
+                  <th scope="col">Avg Finish</th>
+                  <th scope="col">Avg % Above League Avg Points</th>
                 </tr>
               </thead>
               {% for i in total|dictsortreversed:"win_pct" %}
@@ -24,6 +26,8 @@
                   <td>{{ i.wins }}</td>
                   <td>{{i.losses}}</td>
                   <td>{{i.win_pct}}</td>
+                  <td>{{i.avg_place}}</td>
+                  <td>{{i.pf_avg}}</td>
 
                 </tr>
               </tbody>

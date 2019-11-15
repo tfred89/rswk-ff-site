@@ -60,5 +60,15 @@ def past(request):
         pct = str(round(pct, 1)) + "%"
         stats['win_pct'] = pct
         stats['player'] = name
+        scores = stats.pop('points_for_yr')
+        league_scores = PastSeasons.stats.league_points()
+        avg = []
+        for key in scores:
+            dif = scores[key] / (league_scores[key] + scores[key])
+            avg.append(dif)
+        f_avg = sum(avg)/len(avg) * 100
+        f_avg = str(f_avg) + "%"
+        stats['pf_avg'] = f_avg
+        stats['avg_place'] = round(stats['avg_place'], 2)
         totals.append(stats)
     return render(request, 'basic_app/past_seasons.html', {'past_szn': past_list, 'total': totals})

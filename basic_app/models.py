@@ -13,10 +13,24 @@ class PastQS(models.QuerySet):
 
     def player_stats(self, player):
         stats = self.filter(owner=player).aggregate(Sum('wins'), Sum('losses'))
+        finish = self.filter(owner=player).aggregate(Avg('place'))
+        place = finish.get('place__avg')
         wins = stats.get('wins__sum')
         losses = stats.get('losses__sum')
-        obj = {'wins': wins, 'losses': losses}
+        pf = self.filter(owner=player).values_list('year', 'points_for')
+        year_scores = = {v['year']:v['points_for'] for v in pf}
+        obj = {'wins': wins, 'losses': losses, 'avg_place':place, 'points_for_yr':year_scores}
         return obj
+
+    def league_points(self):
+        output = {}
+        years = self.distinct('year').values_list('year', flat=True)
+        for y in years:
+            num = self.filter(year=y).aggregate(Avg('points_for'))
+            score = num.get('points_for__avg')
+            output[y] = score
+        return output
+
 
 class PastSeasons(models.Model):
     year = models.IntegerField()
