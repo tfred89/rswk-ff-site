@@ -18,7 +18,7 @@ class PastQS(models.QuerySet):
         wins = stats.get('wins__sum')
         losses = stats.get('losses__sum')
         pf = self.filter(owner=player).values_list('year', 'points_for')
-        year_scores = = {v['year']:v['points_for'] for v in pf}
+        year_scores = {v['year']:v['points_for'] for v in pf}
         obj = {'wins': wins, 'losses': losses, 'avg_place':place, 'points_for_yr':year_scores}
         return obj
 
