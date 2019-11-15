@@ -60,5 +60,5 @@ def past(request):
         pct = str(round(pct, 1)) + "%"
         stats['win_pct'] = pct
         stats['player'] = name
-        totals.appen(stats)
+        totals.append(stats)
     return render(request, 'basic_app/past_seasons.html', {'past_szn': past_list, 'total': totals})
