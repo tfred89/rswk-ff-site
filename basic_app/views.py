@@ -44,7 +44,7 @@ def player_page(request, team_abbrev):
 def past(request):
     past_list = PastSeasons.objects.order_by('year').order_by('place')
 
-    owners = past_list.distinct('owner').values_list('owner', flat=True)
+    owners = PastSeasons.objects.distinct('owner').values_list('owner', flat=True)
     totals = []
     # add current season wins and losses
     for player in owners:
