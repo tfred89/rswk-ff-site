@@ -56,14 +56,14 @@ def past(request):
     # add current season wins and losses
     for key in totals.keys():
         current = CurrentSeason.objects.filter(year=2019, owner=key)
-        if len(current) > 0:
-            cur = totals[key]
-            szn = list(current.aggregate(Sum('result')).values())[0]
+        cur = totals[key]
+        szn = list(current.aggregate(Sum('result')).values())[0]
+        if type(szn) == int:
             cur_losses = szn - len(current)
             cur[0] += szn
             cur[1] += cur_losses
-            pct = "%.3f" % float(cur[0] / (cur[0] + cur[1]))
-            totals[key].append(pct)
+        pct = "%.3f" % float(cur[0] / (cur[0] + cur[1]))
+        totals[key].append(pct)
     sorted_totals = [[k, v] for k, v in totals.items()]
     st = []
     for i in sorted_totals:
