@@ -64,10 +64,10 @@ def past(request):
         league_scores = PastSeasons.stats.league_points()
         avg = []
         for key in scores:
-            dif = scores[key] / (league_scores[key] + scores[key])
+            dif = (scores[key] - league_scores[key]) / (league_scores[key])
             avg.append(dif)
         f_avg = sum(avg)/len(avg) * 100
-        f_avg = str(f_avg) + "%"
+        f_avg = str(round(f_avg, 2)) + "%"
         stats['pf_avg'] = f_avg
         stats['avg_place'] = round(stats['avg_place'], 2)
         totals.append(stats)
