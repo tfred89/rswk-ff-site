@@ -65,7 +65,7 @@ def add_rankings(league):
         owner = Player.objects.get(player_id=player.team_id)
         pf = round(player.points_for, 2)
         pa = round(player.points_against, 2)
-        x, y = Rankings.objects.create(
+        x, y = Rankings.objects.get_or_create(
             year=year,
             game_week=week,
             team_name=t_name,

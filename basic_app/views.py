@@ -9,7 +9,7 @@ def home(request):
     week = get_week()
     pw = week - 1
     try:
-        if not CurrentSeason.objects.filter(year=2019, game_week=pw, owner_id=1).exists():
+        if not CurrentSeason.objects.filter(year=2019, game_week=pw, owner_='Trent Frederick').exists():
             weekly_update()
     except:
         pass
