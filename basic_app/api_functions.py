@@ -160,7 +160,7 @@ def get_trophies():
 def skittish():
     all = Skittish.objects.all()
     playing = all.filter(eliminated=False)
-    losers = all.filter(eliminated=True)
+    losers = all.filter(eliminated=True).order_by('elim_week')
     skitted = []
     survivors = [p.player for p in playing]
     for p in losers:

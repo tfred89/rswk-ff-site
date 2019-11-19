@@ -5,8 +5,7 @@ from ff_espn_api import League
 
 
 
-def weekly_db_update(league):
-    week = league.nfl_week
+def weekly_db_update(week, league):
     year = league.year
     comp = week - 1
     bs = league.box_scores(comp)
@@ -100,6 +99,6 @@ def weekly_update():
     espn_s2 = 'AECMpoZv%2FZF6G9Q1PEU9bnJD2Xf8FJwcFa8voarn81ZyGsMy8BzOpN8M6Wd9dLle3mHCQpW%2F0uQja23BYQagdA9H6tFSbtqGyyg%2BZs3m22Y%2FKNxo7os%2BBNSjX4bKa6UOSBlOph7KwtyMFBe654mVtR4inWzGYrTFVo2RIDk6ueNPFnz%2BDlKaxcQhRniwrEnXhprLfL78Gel1JetARL5lkiqGR2f%2BaPoxq%2Btfb8uj%2BzQAkMEkwJZaoWOUCPfxa7w%2FLa5GVnX5Ca%2F2ZqhFeysjWwOhYflDFnlItB1SKjpWPFtQ2w%3D%3D'
     league = League(league_id, year, espn_s2, swid)
     week = get_week() - 1
-    weekly_db_update(league)
+    weekly_db_update(week, league)
     add_rankings(league)
     update_skittish(week, 2019)
