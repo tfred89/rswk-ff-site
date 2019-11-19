@@ -27,7 +27,7 @@ def weekly_db_update(league):
         h_owner = Player.objects.get(player_id=home_team.team_id)
         a_owner = Player.objects.get(player_id=away_team.team_id)
 
-        CurrentSeason.objects.create(
+        x, xx = CurrentSeason.objects.get_or_create(
             year=year,
             game_week=week,
             team_name=home_team.team_name,
@@ -37,8 +37,9 @@ def weekly_db_update(league):
             points_against=away_score,
             result=home_result,
             owner=h_owner)
+        x.save()
 
-        CurrentSeason.objects.create(
+        y, yy = CurrentSeason.objects.get_or_create(
             year=year,
             game_week=week,
             team_name=away_team.team_name,
@@ -48,6 +49,7 @@ def weekly_db_update(league):
             points_against=home_score,
             result=away_result,
             owner=a_owner)
+        y.save()
 
 
 def add_rankings(league):
@@ -63,7 +65,7 @@ def add_rankings(league):
         owner = Player.objects.get(player_id=player.team_id)
         pf = round(player.points_for, 2)
         pa = round(player.points_against, 2)
-        Rankings.objects.create(
+        x, y = Rankings.objects.create(
             year=year,
             game_week=week,
             team_name=t_name,
@@ -74,6 +76,7 @@ def add_rankings(league):
             place=place,
             wins=w,
             losses=l)
+        x.save()
 
 
 def update_skittish(week, year):
@@ -96,8 +99,7 @@ def weekly_update():
     swid = '{CC3929FE-4B90-497B-87D7-6283A951436F}'
     espn_s2 = 'AECMpoZv%2FZF6G9Q1PEU9bnJD2Xf8FJwcFa8voarn81ZyGsMy8BzOpN8M6Wd9dLle3mHCQpW%2F0uQja23BYQagdA9H6tFSbtqGyyg%2BZs3m22Y%2FKNxo7os%2BBNSjX4bKa6UOSBlOph7KwtyMFBe654mVtR4inWzGYrTFVo2RIDk6ueNPFnz%2BDlKaxcQhRniwrEnXhprLfL78Gel1JetARL5lkiqGR2f%2BaPoxq%2Btfb8uj%2BzQAkMEkwJZaoWOUCPfxa7w%2FLa5GVnX5Ca%2F2ZqhFeysjWwOhYflDFnlItB1SKjpWPFtQ2w%3D%3D'
     league = League(league_id, year, espn_s2, swid)
-    week = get_week()
-    league_load = league
-    weekly_db_update(league_load)
-    add_rankings(league_load)
+    week = get_week() - 1
+    weekly_db_update(league)
+    add_rankings(league)
     update_skittish(week, 2019)
