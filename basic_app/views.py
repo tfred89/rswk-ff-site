@@ -1,17 +1,25 @@
 from django.shortcuts import render
 from django.db.models import Sum
-from .models import CurrentSeason, PastSeasons
+from basic_app.models import CurrentSeason, PastSeasons
+from basic_app.db_update import weekly_update
 from basic_app.api_functions import get_standings, week_scores, get_trophies, skittish, get_week, season_stats, league_graph_stats
 
 
 def home(request):
+    week = get_week()
+    pw = week - 1
+    try:
+        if not CurrentSeason.objects.filter(year=2019, game_week=pw, owner_id=1).exists():
+            weekly_update()
+    except:
+        pass
     player = week_scores()
     score_dict = get_standings()
     t_and_l = get_trophies()
     trophies = t_and_l['trophies']
     dollars = t_and_l['dollars']
     skit = skittish()
-    week = get_week()
+
     return render(request, 'basic_app/home.html', {'week_scores': player,
                                                    'Scoreboard': score_dict,
                                                    'trophies': trophies,
@@ -42,11 +50,20 @@ def player_page(request, team_abbrev):
 
 
 def past(request):
-    past_list = PastSeasons.objects.order_by('year').order_by('place')
+    past_list = PastSeasons.objects.order_by('year').order_by('place').values()
+    league_scores = PastSeasons.stats.league_points()
+    for i in past_list:
+        year = i['year']
+        s_pt = league_scores[year]
+        p_pt = i['points_for']
+        dif = (p_pt - s_pt)/s_pt * 100
+        pct_d = str(round(dif, 1)) + "%"
+        i['pct_d'] = pct_d
 
     owners = PastSeasons.objects.distinct('owner').values_list('owner', flat=True)
     totals = []
     # add current season wins and losses
+
     for player in owners:
         name = player
         current = CurrentSeason.objects.filter(year=2019, owner=player)
@@ -61,7 +78,6 @@ def past(request):
         stats['win_pct'] = pct
         stats['player'] = name
         scores = stats.pop('points_for_yr')
-        league_scores = PastSeasons.stats.league_points()
         avg = []
         for key in scores:
             dif = (scores[key] - league_scores[key]) / (league_scores[key])

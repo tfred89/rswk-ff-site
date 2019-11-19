@@ -58,6 +58,7 @@
                   <th scope="col">Ties</th>
                   <th scope="col">Points For</th>
                   <th scope="col">Points Against</th>
+                  <th scope="col">% PF vs League Avg</th>
                 </tr>
               </thead>
               {% for i in past_szn %}
@@ -66,12 +67,13 @@
                 <tr>
                   <th scope="row">{{ i.year }}</th>
                   <td>{{ i.place }}</td>
-                  <td>{{i.owner}}</td>
+                  <td>{{i.owner_id}}</td>
                   <td>{{i.wins}}</td>
                   <td>{{i.losses}}</td>
                   <td>{{i.ties}}</td>
                   <td>{{i.points_for}}</td>
                   <td>{{i.points_against}}</td>
+                  <td>{{i.pct_d}}</td>
                 </tr>
               </tbody>
               {% endif %}
@@ -98,6 +100,7 @@
                     <th scope="col">Ties</th>
                     <th scope="col">Points For</th>
                     <th scope="col">Points Against</th>
+                    <th scope="col">% PF vs League Avg</th>
                   </tr>
                 </thead>
                 {% for i in past_szn %}
@@ -106,12 +109,13 @@
                   <tr>
                     <th scope="row">{{ i.year }}</th>
                     <td>{{ i.place }}</td>
-                    <td>{{i.owner}}</td>
+                    <td>{{i.owner_id}}</td>
                     <td>{{i.wins}}</td>
                     <td>{{i.losses}}</td>
                     <td>{{i.ties}}</td>
                     <td>{{i.points_for}}</td>
                     <td>{{i.points_against}}</td>
+                    <td>{{i.pct_d}}</td>
                   </tr>
                 </tbody>
                 {% endif %}
@@ -138,6 +142,7 @@
                       <th scope="col">Ties</th>
                       <th scope="col">Points For</th>
                       <th scope="col">Points Against</th>
+                      <th scope="col">% PF vs League Avg</th>
                     </tr>
                   </thead>
                   {% for i in past_szn %}
@@ -146,12 +151,13 @@
                     <tr>
                       <th scope="row">{{ i.year }}</th>
                       <td>{{ i.place }}</td>
-                      <td>{{i.owner}}</td>
+                      <td>{{i.owner_id}}</td>
                       <td>{{i.wins}}</td>
                       <td>{{i.losses}}</td>
                       <td>{{i.ties}}</td>
                       <td>{{i.points_for}}</td>
                       <td>{{i.points_against}}</td>
+                      <td>{{i.pct_d}}</td>
                     </tr>
                   </tbody>
                   {% endif %}
@@ -178,6 +184,7 @@
                         <th scope="col">Ties</th>
                         <th scope="col">Points For</th>
                         <th scope="col">Points Against</th>
+                        <th scope="col">% PF vs League Avg</th>
                       </tr>
                     </thead>
                     {% for i in past_szn %}
@@ -186,12 +193,13 @@
                       <tr>
                         <th scope="row">{{ i.year }}</th>
                         <td>{{ i.place }}</td>
-                        <td>{{i.owner}}</td>
+                        <td>{{i.owner_id}}</td>
                         <td>{{i.wins}}</td>
                         <td>{{i.losses}}</td>
                         <td>{{i.ties}}</td>
                         <td>{{i.points_for}}</td>
                         <td>{{i.points_against}}</td>
+                        <td>{{i.pct_d}}</td>
                       </tr>
                     </tbody>
                     {% endif %}
@@ -218,6 +226,7 @@
                           <th scope="col">Ties</th>
                           <th scope="col">Points For</th>
                           <th scope="col">Points Against</th>
+                          <th scope="col">% PF vs League Avg</th>
                         </tr>
                       </thead>
                       {% for i in past_szn %}
@@ -226,12 +235,13 @@
                         <tr>
                           <th scope="row">{{ i.year }}</th>
                           <td>{{ i.place }}</td>
-                          <td>{{i.owner}}</td>
+                          <td>{{i.owner_id}}</td>
                           <td>{{i.wins}}</td>
                           <td>{{i.losses}}</td>
                           <td>{{i.ties}}</td>
                           <td>{{i.points_for}}</td>
                           <td>{{i.points_against}}</td>
+                          <td>{{i.pct_d}}</td>
                         </tr>
                       </tbody>
                       {% endif %}
