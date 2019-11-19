@@ -61,7 +61,7 @@ def add_rankings(league):
         t_name = player.team_name
         t_abb = player.team_abbrev
         w = player.wins
-        l = player.losses
+        loss = player.losses
         owner = Player.objects.get(player_id=player.team_id)
         pf = round(player.points_for, 2)
         pa = round(player.points_against, 2)
@@ -75,7 +75,7 @@ def add_rankings(league):
             owner=owner,
             place=place,
             wins=w,
-            losses=l)
+            losses=loss)
         x.save()
 
 
