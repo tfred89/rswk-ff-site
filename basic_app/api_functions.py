@@ -5,10 +5,11 @@ from .models import CurrentSeason, Rankings, Skittish, Player
 # standings = league.standings()
 
 
-def get_week():
+def get_week(sub=0):
     start = date(2019, 9, 3) # league start date
     now = date.today()
     week = (now-start).days//7 + 1
+    week -= sub
     return week
 
 

@@ -6,10 +6,9 @@ from basic_app.api_functions import get_standings, week_scores, get_trophies, sk
 
 
 def home(request):
-    week = get_week()
-    pw = week - 1
+    week = get_week(1)
     try:
-        if len(CurrentSeason.objects.filter(year=2019, game_week=pw)) < 14:
+        if len(CurrentSeason.objects.filter(year=2019, game_week=week)) < 14:
             weekly_update()
     except:
         pass

@@ -21,7 +21,7 @@ class CSA(admin.ModelAdmin):
 
 
 class SkittishA(admin.ModelAdmin):
-    list_display = ['player', 'eiliminated']
+    list_display = ['player', 'eliminated']
     search_fields = ['player']
 
 

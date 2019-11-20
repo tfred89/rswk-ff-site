@@ -52,7 +52,7 @@ def weekly_db_update(week, league):
 
 
 def add_rankings(league):
-    week = get_week() - 1
+    week = get_week(1)
     year = league.year
     rankings = league.standings()
     rank_dict = dict(enumerate(rankings, start=1))
