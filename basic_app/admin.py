@@ -5,24 +5,26 @@ from basic_app.models import PastSeasons, CurrentSeason, Player, Rankings, Skitt
 class RankingsA(admin.ModelAdmin):
     list_display = ['year', 'game_week', 'team_name', 'owner',
                     'place', 'wins', 'losses']
-    search_fields = ['game_week', 'owner']
+    search_fields = ['game_week',]
+    list_filter = ('game_week', 'team_name', 'place',)
 
 
 class PastSeasonsA(admin.ModelAdmin):
     list_display = ['year', 'place', 'team_name',
                     'owner', 'wins', 'losses', 'ties']
     search_fields = ['owner', 'year']
+    list_filter = ('year', 'place', 'owner',)
 
 
 class CSA(admin.ModelAdmin):
-    list_display = ['year', 'game_week', 'team_name', 'points',
+    list_display = ['year', 'game_week', 'team_name', 'points_for',
                     'points_against', 'owner', 'point_dif']
     search_fields = ['owner', 'team_name']
 
 
 class SkittishA(admin.ModelAdmin):
     list_display = ['player', 'eliminated']
-    search_fields = ['player']
+    search_fields = ['player',]
 
 
 

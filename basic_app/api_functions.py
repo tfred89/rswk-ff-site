@@ -88,7 +88,7 @@ def week_scores():
 
 
 def get_trophies():
-    gw = get_week() - 1
+    gw = get_week(1)
     standings = Rankings.objects.filter(game_week=gw)
     scores = CurrentSeason.objects.filter(year=2019).order_by('-point_dif')
     margin = scores[0]
