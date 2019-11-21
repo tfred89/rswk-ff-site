@@ -87,9 +87,17 @@ def past(request):
         for key in scores:
             dif = (scores[key] - league_scores[key]) / (league_scores[key])
             avg.append(dif)
-        f_avg = sum(avg)/len(avg) * 100
-        f_avg = str(round(f_avg, 2)) + "%"
+
+        scores_ag = stats.pop('points_ag_yr')
+        avg_ag = []
+        for key in scores_ag:
+            dif = (scores_ag[key] - league_scores[key]) / (league_scores[key])
+            avg_ag.append(dif)
+        ag_avg = sum(avg_ag)/len(avg_ag) * 100
+        ag_avg = str(round(ag_avg, 2)) + "%"
+
         stats['pf_avg'] = f_avg
+        stats['pa_avg'] = ag_avg
         stats['avg_place'] = round(stats['avg_place'], 2)
         totals.append(stats)
     return render(request, 'basic_app/past_seasons.html', {'past_szn': past_list, 'total': totals})
