@@ -59,6 +59,12 @@ def past(request):
         pct_d = str(round(dif, 1)) + "%"
         i['pct_d'] = pct_d
 
+        s_pt_ag = league_scores[year]
+        p_pt_ag = i['points_against']
+        dif_ag = (p_pt_ag - s_pt_ag)/s_pt_ag * 100
+        pct_d_ag = str(round(dif_ag, 1)) + "%"
+        i['pct_d_ag'] = pct_d_ag
+
     owners = PastSeasons.objects.distinct('owner').values_list('owner', flat=True)
     totals = []
     # add current season wins and losses

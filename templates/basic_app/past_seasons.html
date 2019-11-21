@@ -59,6 +59,7 @@
                   <th scope="col">Points For</th>
                   <th scope="col">Points Against</th>
                   <th scope="col">% PF vs League Avg</th>
+                  <th scope="col">% PA vs League Avg</th>
                 </tr>
               </thead>
               {% for i in past_szn %}
@@ -74,6 +75,7 @@
                   <td>{{i.points_for}}</td>
                   <td>{{i.points_against}}</td>
                   <td>{{i.pct_d}}</td>
+                  <td>{{i.pct_d_ag}}</td>
                 </tr>
               </tbody>
               {% endif %}
@@ -101,6 +103,7 @@
                     <th scope="col">Points For</th>
                     <th scope="col">Points Against</th>
                     <th scope="col">% PF vs League Avg</th>
+                    <th scope="col">% PA vs League Avg</th>
                   </tr>
                 </thead>
                 {% for i in past_szn %}
@@ -116,6 +119,7 @@
                     <td>{{i.points_for}}</td>
                     <td>{{i.points_against}}</td>
                     <td>{{i.pct_d}}</td>
+                    <td>{{i.pct_d_ag}}</td>
                   </tr>
                 </tbody>
                 {% endif %}
@@ -143,6 +147,7 @@
                       <th scope="col">Points For</th>
                       <th scope="col">Points Against</th>
                       <th scope="col">% PF vs League Avg</th>
+                      <th scope="col">% PA vs League Avg</th>
                     </tr>
                   </thead>
                   {% for i in past_szn %}
@@ -158,6 +163,7 @@
                       <td>{{i.points_for}}</td>
                       <td>{{i.points_against}}</td>
                       <td>{{i.pct_d}}</td>
+                      <td>{{i.pct_d_ag}}</td>
                     </tr>
                   </tbody>
                   {% endif %}
@@ -185,6 +191,7 @@
                         <th scope="col">Points For</th>
                         <th scope="col">Points Against</th>
                         <th scope="col">% PF vs League Avg</th>
+                        <th scope="col">% PA vs League Avg</th>
                       </tr>
                     </thead>
                     {% for i in past_szn %}
@@ -200,6 +207,7 @@
                         <td>{{i.points_for}}</td>
                         <td>{{i.points_against}}</td>
                         <td>{{i.pct_d}}</td>
+                        <td>{{i.pct_d_ag}}</td>
                       </tr>
                     </tbody>
                     {% endif %}
@@ -227,6 +235,7 @@
                           <th scope="col">Points For</th>
                           <th scope="col">Points Against</th>
                           <th scope="col">% PF vs League Avg</th>
+                          <th scope="col">% PA vs League Avg</th>
                         </tr>
                       </thead>
                       {% for i in past_szn %}
@@ -242,6 +251,7 @@
                           <td>{{i.points_for}}</td>
                           <td>{{i.points_against}}</td>
                           <td>{{i.pct_d}}</td>
+                          <td>{{i.pct_d_ag}}</td>
                         </tr>
                       </tbody>
                       {% endif %}
