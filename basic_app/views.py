@@ -82,11 +82,15 @@ def past(request):
         pct = str(round(pct, 1)) + "%"
         stats['win_pct'] = pct
         stats['player'] = name
+
         scores = stats.pop('points_for_yr')
         avg = []
         for key in scores:
             dif = (scores[key] - league_scores[key]) / (league_scores[key])
             avg.append(dif)
+        f_avg = sum(avg)/len(avg) * 100
+        f_avg = str(round(f_avg, 2)) + "%"
+        stats['pf_avg'] = f_avg
 
         scores_ag = stats.pop('points_ag_yr')
         avg_ag = []
@@ -95,8 +99,6 @@ def past(request):
             avg_ag.append(dif)
         ag_avg = sum(avg_ag)/len(avg_ag) * 100
         ag_avg = str(round(ag_avg, 2)) + "%"
-
-        stats['pf_avg'] = f_avg
         stats['pa_avg'] = ag_avg
         stats['avg_place'] = round(stats['avg_place'], 2)
         totals.append(stats)
