@@ -12,7 +12,7 @@ from ff_espn_api import League
 
 
 def weekly_db_update(week, league):
-    bs = league.box_scores(comp)
+    bs = league.box_scores(week)
     for game in bs:
         home_score = game.home_score
         home_team = game.home_team
