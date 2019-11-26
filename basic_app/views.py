@@ -1,17 +1,11 @@
 from django.shortcuts import render
 from django.db.models import Sum
 from basic_app.models import CurrentSeason, PastSeasons
-from basic_app.db_update import weekly_update
 from basic_app.api_functions import get_standings, week_scores, get_trophies, skittish, get_week, season_stats, league_graph_stats
 
 
 def home(request):
     week = get_week(1)
-    try:
-        if len(CurrentSeason.objects.filter(year=2019, game_week=week)) < 14:
-            weekly_update()
-    except:
-        pass
     player = week_scores()
     score_dict = get_standings()
     t_and_l = get_trophies()

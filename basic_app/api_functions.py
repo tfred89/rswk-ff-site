@@ -1,4 +1,4 @@
-from datetime import date
+import datetime
 from .models import CurrentSeason, Rankings, Skittish, Player
 
 #
@@ -6,8 +6,8 @@ from .models import CurrentSeason, Rankings, Skittish, Player
 
 
 def get_week(sub=0):
-    start = date(2019, 9, 3) # league start date
-    now = date.today()
+    start = datetime.datetime(2019, 9, 3, 9, 0, 0, tzinfo=datetime.timezone.utc) # league start date
+    now = datetime.datetime.now(datetime.timezone.utc)
     week = (now-start).days//7 + 1
     week -= sub
     return week
