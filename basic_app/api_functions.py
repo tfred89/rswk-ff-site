@@ -92,7 +92,7 @@ def get_trophies():
     standings = Rankings.objects.filter(game_week=gw)
     scores = CurrentSeason.objects.filter(year=2019).order_by('-point_dif')
     margin = scores[0]
-    late_szn = scores.filter(game_week__gte=10).order_by('-points_for')[0]
+    late_szn = CurrentSeason.stats.late_season()[-1]
     bl = scores.filter(result=0).order_by('-points_for')[0]
     most_points = standings.order_by('-points_for')[0]
     most_against = standings.order_by('-points_against')[0]

@@ -67,6 +67,18 @@ class CurrentSeasonCustom(models.QuerySet):
             output.append(score)
         return output
 
+    def late_season(self):
+        output = []
+        scores = self.filter(year=2019, game_week__gte=10)
+        players = scores.values_list('owner', flat=True).distinct()
+        for p in players:
+            s = scores.filter(owner=p).aggregate(Sum('points_for'))
+            out = [p, s.get('points_for__sum')]
+            output.append(out)
+        output.sort(key=lambda x: x[1])
+        return output
+
+
     def full_stats(self):
         weeks = list(self.filter(year=2019).values_list('game_week', flat=True).distinct())
         out = []
