@@ -58,3 +58,13 @@ def box_scores(game_week):
             owner = Player.objects.get(player_name=away_team.owner)
         )[0]
         away_update.save()
+
+
+def player_obj(team):
+    wins = team.wins
+    losses = team.losses
+    pf = team.points_for
+    pa = team.points_against
+    name = team.team_name
+    out = {'w':wins, 'l':losses, 'pa':pa, 'pf':pf, 'name':name}
+    return out

@@ -70,9 +70,9 @@ class CurrentSeasonCustom(models.QuerySet):
     def late_season(self):
         output = []
         scores = self.filter(year=2019, game_week__gte=10)
-        players = scores.values_list('owner', flat=True).distinct()
+        players = scores.values_list('team_name', flat=True).distinct()
         for p in players:
-            s = scores.filter(owner=p).aggregate(Sum('points_for'))
+            s = scores.filter(team_name=p).aggregate(Sum('points_for'))
             out = [p, s.get('points_for__sum')]
             output.append(out)
         output.sort(key=lambda x: x[1])

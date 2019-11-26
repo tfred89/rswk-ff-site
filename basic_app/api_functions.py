@@ -106,7 +106,7 @@ def get_trophies():
         'season_winner': ['$25', standings[0].team_name],
         'skittish': ['$40', 'TBD'],
         'high_points': ['$25', most_points.team_name],
-        'week10_16': ['$20', late_szn.team_name],
+        'week10_16': ['$20', late_szn[0]],
         'highest_loss': ['$10', bl.team_name, bl.points_for, bl.game_week],
         'high_score': ['$10', big_week.team_name, big_week.points_for, big_week.game_week],
         'margin': ['$10', margin.team_name, margin.points_for, margin.game_week],
