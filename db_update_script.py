@@ -11,7 +11,7 @@ from django.db.models import Min
 from ff_espn_api import League
 
 
-def weekly_db_update(week, league):
+def weekly_db_update(week, league, year):
     bs = league.box_scores(week)
     for game in bs:
         home_score = game.home_score
@@ -105,9 +105,12 @@ def weekly_update():
     espn_s2 = 'AECMpoZv%2FZF6G9Q1PEU9bnJD2Xf8FJwcFa8voarn81ZyGsMy8BzOpN8M6Wd9dLle3mHCQpW%2F0uQja23BYQagdA9H6tFSbtqGyyg%2BZs3m22Y%2FKNxo7os%2BBNSjX4bKa6UOSBlOph7KwtyMFBe654mVtR4inWzGYrTFVo2RIDk6ueNPFnz%2BDlKaxcQhRniwrEnXhprLfL78Gel1JetARL5lkiqGR2f%2BaPoxq%2Btfb8uj%2BzQAkMEkwJZaoWOUCPfxa7w%2FLa5GVnX5Ca%2F2ZqhFeysjWwOhYflDFnlItB1SKjpWPFtQ2w%3D%3D'
     league = League(league_id, year, espn_s2, swid)
     week = get_week(1)
-    weekly_db_update(week, league)
+    weekly_db_update(week, league, year)
+    print("current season model updated")
     add_rankings(league)
+    print('rankings updated')
     update_skittish(week, 2019)
+    print('skittish updated')
 
 if __name__ == '__main__':
     week = get_week(1)
