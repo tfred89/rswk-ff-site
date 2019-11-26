@@ -39,7 +39,8 @@ def weekly_db_update(week, league):
             opponent=away_team.team_name,
             points_against=away_score,
             result=home_result,
-            owner=h_owner)
+            owner=h_owner,
+            point_dif=diff)
         x.save()
 
         y, yy = CurrentSeason.objects.get_or_create(
@@ -51,7 +52,8 @@ def weekly_db_update(week, league):
             opponent=home_team.team_name,
             points_against=home_score,
             result=away_result,
-            owner=a_owner)
+            owner=a_owner,
+            point_dif=diff)
         y.save()
 
 
