@@ -88,7 +88,7 @@ class CurrentSeasonCustom(models.QuerySet):
             hi = cur.get(points_for=qs['points_for__max'])
             low = cur.get(points_for=qs['points_for__min'])
             adder = [round(i, 1) for i in qs.values()]
-            adder = [gw] + adder + [hi.team_name, low.team_name]
+            adder = [gw] + adder + [hi.owner.player_name, low.owner.player_name]
             out.append(adder)
         return out
 
