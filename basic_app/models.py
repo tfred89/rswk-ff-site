@@ -83,9 +83,12 @@ class CurrentSeasonCustom(models.QuerySet):
         weeks = list(self.filter(year=2019).values_list('game_week', flat=True).distinct())
         out = []
         for gw in weeks:
-            qs = self.filter(year=2019, game_week=gw).aggregate(Max('points_for'), Min('points_for'), Avg('points_for'), StdDev('points_for'))
+            cur = self.filter(year=2019, game_week=gw)
+            qs = cur.aggregate(Max('points_for'), Min('points_for'), Avg('points_for'), StdDev('points_for'))
+            hi = cur.get(points_for=qs['points_for__max'])
+            low = cur.get(points_for=qs['points_for__min'])
             adder = [round(i, 1) for i in qs.values()]
-            adder = [gw] + adder
+            adder = [gw] + adder + [hi.team_name, low.team_name]
             out.append(adder)
         return out
 
