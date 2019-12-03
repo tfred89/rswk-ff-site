@@ -85,17 +85,18 @@ def add_rankings(league):
 
 
 def update_skittish(week, year):
-    players = Skittish.objects.filter(eliminated=False)
-    p_ids = [p.player.player_id for p in players]
-    week_scores = CurrentSeason.objects.filter(
-        year=year, game_week=week, owner__player_id__in=p_ids)
-    low_score = week_scores.aggregate(Min('points_for'))
-    the_skitted = week_scores.get(points_for=low_score['points_for__min'])
-    get_skit = Skittish.objects.get(player=the_skitted.owner)
-    get_skit.eliminated=True
-    get_skit.elim_score=low_score['points_for__min']
-    get_skit.elim_week=week
-    get_skit.save()
+    if week < 14:
+        players = Skittish.objects.filter(eliminated=False)
+        p_ids = [p.player.player_id for p in players]
+        week_scores = CurrentSeason.objects.filter(
+            year=year, game_week=week, owner__player_id__in=p_ids)
+        low_score = week_scores.aggregate(Min('points_for'))
+        the_skitted = week_scores.get(points_for=low_score['points_for__min'])
+        get_skit = Skittish.objects.get(player=the_skitted.owner)
+        get_skit.eliminated=True
+        get_skit.elim_score=low_score['points_for__min']
+        get_skit.elim_week=week
+        get_skit.save()
 
 
 def weekly_update():

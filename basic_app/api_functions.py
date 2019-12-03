@@ -98,13 +98,19 @@ def get_trophies():
     most_against = standings.order_by('-points_against')[0]
     big_week = scores.order_by('-points_for')[0]
     big_miss = standings.filter(place__gte=9).order_by('-points_for')[0]
+    skittish = Skittish.objects.filter(eliminate=False)
+    if skittish.count() == 1:
+        p = skittish[0]
+        skit_team = p.player.rankings_set.last().team_name
+    else:
+        skit_team = 'TBD'
 
     trophies = {
         'first': ['$375', standings[0].team_name],
         'second': ['$100', standings[1].team_name],
         'third': ['$50', standings[2].team_name],
         'season_winner': ['$25', standings[0].team_name],
-        'skittish': ['$40', 'TBD'],
+        'skittish': ['$40', skit_team],
         'high_points': ['$25', most_points.team_name],
         'week10_16': ['$20', late_szn[0]],
         'highest_loss': ['$10', bl.team_name, bl.points_for, bl.game_week],
