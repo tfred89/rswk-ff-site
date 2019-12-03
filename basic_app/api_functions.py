@@ -98,7 +98,7 @@ def get_trophies():
     most_against = standings.order_by('-points_against')[0]
     big_week = scores.order_by('-points_for')[0]
     big_miss = standings.filter(place__gte=9).order_by('-points_for')[0]
-    skittish = Skittish.objects.filter(eliminate=False)
+    skittish = Skittish.objects.filter(eliminated=False)
     if skittish.count() == 1:
         p = skittish[0]
         skit_team = p.player.rankings_set.last().team_name
