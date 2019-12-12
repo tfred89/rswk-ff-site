@@ -5,7 +5,7 @@ import django
 django.setup()
 
 from basic_app.models import Rankings, CurrentSeason, Player, Skittish
-from basic_app.api_functions import league as espn_league
+from basic_app.api_connection import league as espn_league
 from django.db.models import Min
 
 league_load = espn_league
@@ -34,7 +34,7 @@ def add_player_ids(league):
 
 # To update currentseason
 def update_db_todate(league):
-    week = league.nfl_week
+    week = league.nfl_week if league.nfl_week < 14 else 14
     year = league.year
     count = 0
     for i in range(1, week):
@@ -97,7 +97,7 @@ def add_rankings(league):
         owner = Player.objects.get(player_id=player.team_id)
         pf = round(player.points_for, 2)
         pa = round(player.points_against, 2)
-        Rankings.objects.create(
+        x, y = Rankings.objects.get_or_create(
             year=year,
             game_week=week,
             team_name=t_name,
@@ -141,9 +141,19 @@ def update_skittish(week, year):
 
 if __name__ == '__main__':
 
-    load_skittish(league_load)
+
     print('updating skittish')
-    for week in range(1,11):
-        update_skittish(week, 2019)
-        print(f"skittish week {week} updated")
+    # skit_play = Skittish.objects.all()
+    # skit_play.delete()
+    # skit_play2 = Skittish.objects.all().count()
+    # print(f'Skittish deleted. {skit_play2} objects remain')
+    #
+    # load_skittish(league_load)
+    # sk3 = Skittish.objects.all().count()
+    # print(f'skittish loaded, {sk3} objects in db')
+    # for week in range(1,14):
+    #     update_skittish(week, 2019)
+    #     print(f"skittish week {week} updated")
+    update_db_todate(league_load)
+    add_rankings(league_load)
     print("populating complete")
