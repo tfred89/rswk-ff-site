@@ -93,12 +93,13 @@ def get_trophies():
     scores = CurrentSeason.objects.filter(year=2019).order_by('-point_dif')
     margin = scores[0]
     late_szn = CurrentSeason.stats.late_season()[-1]
-    bl = scores.filter(result=0).order_by('-points_for')[0]
-    most_points = standings.order_by('-points_for')[0]
-    most_against = standings.order_by('-points_against')[0]
-    big_week = scores.order_by('-points_for')[0]
-    big_miss = standings.filter(place__gte=9).order_by('-points_for')[0]
-    skittish = Skittish.objects.filter(eliminated=False)
+    if gw < 14:
+        bl = scores.filter(result=0).order_by('-points_for')[0]
+        most_points = standings.order_by('-points_for')[0]
+        most_against = standings.order_by('-points_against')[0]
+        big_week = scores.order_by('-points_for')[0]
+        big_miss = standings.filter(place__gte=9).order_by('-points_for')[0]
+        skittish = Skittish.objects.filter(eliminated=False)
     if skittish.count() == 1:
         p = skittish[0]
         skit_team = p.player.rankings_set.last().team_name
