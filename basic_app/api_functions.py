@@ -102,7 +102,7 @@ def get_trophies():
         big_week = scores.order_by('-points_for')[0]
         big_miss = standings.filter(place__gte=9).order_by('-points_for')[0]
     else:
-        standings = Rankings.objects.filter(game_week=gw)
+        standings = Rankings.objects.filter(game_week=13)
         scores = CurrentSeason.objects.filter(year=2019, game_week__gte=13).order_by('-point_dif')
         margin = scores[0]
         bl = scores.filter(result=0, game_week__lte=13).order_by('-points_for')[0]
