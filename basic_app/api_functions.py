@@ -88,18 +88,22 @@ def week_scores():
 
 
 def get_trophies():
+
     gw = get_week(1)
-    standings = Rankings.objects.filter(game_week=gw)
-    scores = CurrentSeason.objects.filter(year=2019).order_by('-point_dif')
-    margin = scores[0]
     late_szn = CurrentSeason.stats.late_season()[-1]
+
     if gw < 14:
+        scores = CurrentSeason.objects.filter(year=2019).order_by('-point_dif')
+        margin = scores[0]
+        standings = Rankings.objects.filter(game_week=gw)
         bl = scores.filter(result=0).order_by('-points_for')[0]
         most_points = standings.order_by('-points_for')[0]
         most_against = standings.order_by('-points_against')[0]
         big_week = scores.order_by('-points_for')[0]
         big_miss = standings.filter(place__gte=9).order_by('-points_for')[0]
     else:
+        scores = CurrentSeason.objects.filter(year=2019, game_week__gte=13).order_by('-point_dif')
+        margin = scores[0]
         bl = scores.filter(result=0, game_week__lte=13).order_by('-points_for')[0]
         most_points = standings.filter(game_week=13).order_by('-points_for')[0]
         most_against = standings.filter(game_week=13).order_by('-points_against')[0]
