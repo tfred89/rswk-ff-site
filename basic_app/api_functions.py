@@ -101,7 +101,7 @@ def get_trophies():
         big_miss = standings.filter(place__gte=9).order_by('-points_for')[0]
     else:
         bl = scores.filter(result=0, game_week__lte=13).order_by('-points_for')[0]
-        most_points = standings.filter(game_week__lte=13).order_by('-points_for')[0]
+        most_points = standings.filter(game_week=13).order_by('-points_for')[0]
         most_against = standings.filter(game_week=13).order_by('-points_against')[0]
         big_miss = standings.filter(place__gte=9, game_week=13).order_by('-points_for')[0]
     skittish = Skittish.objects.filter(eliminated=False)
