@@ -103,16 +103,16 @@ def get_trophies():
         big_miss = standings.filter(place__gte=9).order_by('-points_for')[0]
     else:
         standings = Rankings.objects.filter(game_week=13)
-        scores = CurrentSeason.objects.filter(year=2019, game_week__gte=13).order_by('-point_dif')
-        margin = scores[0]
-        bl = scores.filter(result=0, game_week__lte=13).order_by('-points_for')[0]
-        most_points = standings.order_by('-points_for')[0]
-        most_against = standings.order_by('-points_against')[0]
-        big_week = scores.order_by('-points_for')[0]
+        scores = CurrentSeason.objects.filter(year=2019, game_week__lte=13).order_by('-point_dif')
+        margin = scores.first()
+        bl = scores.filter(result=0).order_by('-points_for').first()
+        most_points = standings.order_by('-points_for').first()
+        most_against = standings.order_by('-points_against').first()
+        big_week = scores.order_by('-points_for').first()
         big_miss = standings.filter(place__gte=9).order_by('-points_for')[0]
     skittish = Skittish.objects.filter(eliminated=False)
     if skittish.count() == 1:
-        p = skittish[0]
+        p = skittish.first()
         skit_team = p.player.rankings_set.last().team_name
     else:
         skit_team = 'TBD'
@@ -124,12 +124,13 @@ def get_trophies():
         'season_winner': ['$25', standings[0].team_name],
         'skittish': ['$40', skit_team],
         'high_points': ['$25', most_points.team_name],
+        'best_miss': ['$25', big_miss.team_name],
         'week10_16': ['$20', late_szn[0]],
         'highest_loss': ['$10', bl.team_name, bl.points_for, bl.game_week],
         'high_score': ['$10', big_week.team_name, big_week.points_for, big_week.game_week],
         'margin': ['$10', margin.team_name, margin.points_for, margin.game_week],
         'most_against': ['$10', most_against.team_name],
-        'best_miss': ['$25', big_miss.team_name]
+
     }
     leaders = {}
     for key, values in trophies.items():

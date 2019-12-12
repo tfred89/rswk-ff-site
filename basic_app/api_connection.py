@@ -12,12 +12,32 @@ league = League(league_id, year, espn_s2, swid)
 # 2019 season load for week 4
 
 
+
+
 def get_week(sub=0):
     start = date(2019, 9, 3) # league start date
     now = date.today()
     week = (now-start).days//7 + 1
     week -= sub
     return week
+
+
+def playoff_standings(league):
+
+    # WIP
+    gw = get_week(1)
+    sb = league.scoreboard()
+    num_teams = 17 - gw
+    d = {}
+    for i in range(num_teams):
+        cur = sb[i]
+        d[cur.home_team.team_name] = cur.home_team.points_for
+        d[cur.away_team.team_name] = cur.away_team.points_for
+    first = d.pop(max(d, key=lambda k: d[k]), None)
+    second = d.pop(max(d, key=lambda k: d[k]), None)
+    if num_teams > 2:
+        third = d.pop(max(d, key=lambda k: d[k]), None)
+    pass
 
 
 def box_scores(game_week):
