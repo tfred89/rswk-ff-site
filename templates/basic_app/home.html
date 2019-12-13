@@ -153,6 +153,54 @@ $(document).ready(function(){
         data: data2,
         options: options2
     });
+
+
+    var canvas2=3 = document.getElementById("barChart2");
+    var ctx3 = canvas3.getContext('2d');
+    var labels3 = [];
+    var dataset3 = [];
+
+    {% for i in late %}
+    labels3.push("{{i.0}}");
+    dataset3.push({{ i.1 }});
+    {% endfor %}
+
+    var data3 = {
+      labels: labels3,
+      datasets:[{
+        data: dataset3,
+        backgroundColor: ["#FFBF00", "#e6194B", "#3cb44b", "#ffe119", "#4363d8", "#f58231", "#42d4f4", "#f032e6", "#fabebe", "#469990", "#e6beff", "#9A6324", "#f6f92f", "#800000", "#aaffc3", "#000075", "#a9a9a9", "#000000"],
+        borderCapStyle: 'square',
+      }]
+    };
+    var options3 = {
+      responsive: true,
+      title: {
+        display: true,
+        text: "Weeks 10-16 Points Scored",
+        fontStyle: 'bold',
+        fontSize: 22
+      },
+      layout:{
+        padding:{
+          top:15,
+          left: 10,
+          right: 10,
+          bottom: 10
+        }
+      },
+      legend: {
+        display: false
+      },
+    };
+
+    var myBarChart2 = new Chart(ctx3, {
+        type: 'bar',
+        data: data3,
+        options: options3
+    });
+
+
 });
 
 {% endblock %}
@@ -398,6 +446,14 @@ $(document).ready(function(){
             <div class="col-lg-7">
               <div class="chart-container flex-fill" style ="position: relative;">
               <canvas id="barChart" style='display:block;'></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="row justify-content-center rowone row-eq-height">
+            <div class="col-lg-7">
+              <div class="chart-container flex-fill" style ="position: relative;">
+              <canvas id="barChart2" style='display:block;'></canvas>
               </div>
             </div>
           </div>

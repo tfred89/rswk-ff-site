@@ -12,14 +12,16 @@ def home(request):
     trophies = t_and_l['trophies']
     dollars = t_and_l['dollars']
     skit = skittish()
+    late_szn = CurrentSeason.stats.late_season().order_by('points_for')
 
     return render(request, 'basic_app/home.html', {'week_scores': player,
                                                    'Scoreboard': score_dict,
                                                    'trophies': trophies,
                                                    'leaders': dollars,
                                                    'week': week,
-                                                   'skittish': skit}
-                                                   )
+                                                   'skittish': skit,
+                                                   'late': late_szn
+                                                   })
 
 
 '''
@@ -65,7 +67,7 @@ def past(request):
 
     for player in owners:
         name = player
-        current = CurrentSeason.objects.filter(year=2019, owner=player)
+        current = CurrentSeason.objects.filter(year=2019, owner=player, game_week__lte=13)
         stats = PastSeasons.stats.player_stats(player)
         szn = list(current.aggregate(Sum('result')).values())[0]
         if type(szn) == int:
