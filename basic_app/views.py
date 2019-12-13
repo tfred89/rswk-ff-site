@@ -13,6 +13,7 @@ def home(request):
     dollars = t_and_l['dollars']
     skit = skittish()
     late_szn = CurrentSeason.stats.late_season()
+    late_szn.reverse()
 
     return render(request, 'basic_app/home.html', {'week_scores': player,
                                                    'Scoreboard': score_dict,
