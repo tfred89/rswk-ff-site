@@ -12,7 +12,7 @@ def home(request):
     trophies = t_and_l['trophies']
     dollars = t_and_l['dollars']
     skit = skittish()
-    late_szn = CurrentSeason.stats.late_season().order_by('points_for')
+    late_szn = CurrentSeason.stats.late_season()
 
     return render(request, 'basic_app/home.html', {'week_scores': player,
                                                    'Scoreboard': score_dict,
