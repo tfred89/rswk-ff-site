@@ -181,6 +181,28 @@ $(document).ready(function(){
         fontStyle: 'bold',
         fontSize: 22
       },
+      scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    },
+                    scaleLabel: {
+                         display: true,
+                         labelString: 'Points Scored',
+                         fontSize: 18
+                      }
+                }],
+                xAxes: [{
+                    ticks: {
+                        beginAtZero:false
+                    },
+                    scaleLabel: {
+                         display: true,
+                         labelString: 'Team Name',
+                         fontSize: 18
+                      }
+                }]
+            },
       layout:{
         padding:{
           top:15,
