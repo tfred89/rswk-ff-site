@@ -121,7 +121,7 @@ def get_trophies():
         'first': ['$375', scores.filter(owner__player_id=6).first().team_name], #after week 14 for places 1-3 based on most points for still in playoffs
         'second': ['$100', scores.filter(owner__player_id=9).first().team_name],
         'third': ['$50', scores.filter(owner__player_id=4).first().team_name],
-        'season_winner': ['$25', standings[0].team_name], 
+        'season_winner': ['$25', standings.first().team_name], 
         'skittish': ['$40', skit_team],
         'high_points': ['$25', most_points.team_name],
         'best_miss': ['$25', big_miss.team_name],
