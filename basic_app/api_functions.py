@@ -122,11 +122,11 @@ def get_trophies():
 
     trophies = {
         # after week 14 for places 1-3 based on most points for still in playoffs
-        'first': ['$375', scores.filter(owner__player_id=6).first().team_name],
-        'second': ['$100', scores.filter(owner__player_id=9).first().team_name],
-        'third': ['$50', scores.filter(owner__player_id=4).first().team_name],
+        'first': ['$375', scores.first().team_name],
+        'second': ['$100', scores.first().team_name],
+        'third': ['$50', scores.first().team_name],
         'season_winner': ['$25', standings.first().team_name],
-        'skittish': ['$40', skit_team],
+        'skittish': ['$40', 'TBD'],
         'high_points': ['$25', most_points.team_name],
         'best_miss': ['$25', big_miss.team_name],
         'week10_16': ['$20', 'TBD'],
@@ -182,7 +182,7 @@ def get_trophies():
 
 
 def skittish():
-    all = Skittish.objects.all()
+    all = Skittish.objects.filter()
     playing = all.filter(eliminated=False)
     losers = all.filter(eliminated=True).order_by('elim_week')
     skitted = []
