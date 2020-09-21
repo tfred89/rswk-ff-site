@@ -1,13 +1,14 @@
+import os
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "RSWKsite.settings")
+
+import django
+django.setup()
+
 from ff_espn_api import League
 from django.db.models import Min
 from basic_app.api_functions import get_week
 from basic_app.models import Rankings, CurrentSeason, Player, Skittish
-import django
-import os
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "RSWKsite.settings")
-
-django.setup()
 
 
 def weekly_db_update(week, league, year):

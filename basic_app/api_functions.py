@@ -92,7 +92,7 @@ def week_scores():
 def get_trophies():
 
     gw = get_week(1)
-    late_szn = CurrentSeason.stats.late_season()[-1]
+    # late_szn = CurrentSeason.stats.late_season()[-1]
 
     if gw < 14:
         scores = CurrentSeason.objects.filter(year=2020).order_by('-point_dif')
@@ -129,7 +129,7 @@ def get_trophies():
         'skittish': ['$40', skit_team],
         'high_points': ['$25', most_points.team_name],
         'best_miss': ['$25', big_miss.team_name],
-        'week10_16': ['$20', late_szn[0]],
+        'week10_16': ['$20', 'TBD'],
         'highest_loss': ['$10', bl.team_name, bl.points_for, bl.game_week],
         'high_score': ['$10', big_week.team_name, big_week.points_for, big_week.game_week],
         'margin': ['$10', margin.team_name, margin.points_for, margin.game_week],
