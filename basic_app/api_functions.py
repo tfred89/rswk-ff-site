@@ -122,10 +122,10 @@ def get_trophies():
 
     trophies = {
         # after week 14 for places 1-3 based on most points for still in playoffs
-        'first': ['$375', rankings[0].team_name],
-        'second': ['$100', rankings[1].team_name],
-        'third': ['$50', rankings[2].team_name],
-        'season_winner': ['$25', rankings[0].team_name],
+        'first': ['$375', standings[0].team_name],
+        'second': ['$100', standings[1].team_name],
+        'third': ['$50', standings[2].team_name],
+        'season_winner': ['$25', standings[0].team_name],
         'skittish': ['$40', 'TBD'],
         'high_points': ['$25', most_points.team_name],
         'best_miss': ['$25', big_miss.team_name],
