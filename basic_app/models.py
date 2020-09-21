@@ -153,4 +153,4 @@ class Skittish(models.Model):
     eliminated = models.BooleanField(default=False)
     elim_score = models.FloatField(null=True, blank=True)
     elim_week = models.IntegerField(blank=True, null=True)
-    year = models.IntegerField(blank=True, null=True)
+
