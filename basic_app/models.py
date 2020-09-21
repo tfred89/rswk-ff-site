@@ -3,11 +3,13 @@ from django.db.models import Avg, Max, Min, StdDev, Sum
 
 
 class Player(models.Model):
-    player_name = models.CharField(max_length=100, unique=True, primary_key=True)
+    player_name = models.CharField(
+        max_length=100, unique=True, primary_key=True)
     player_id = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.player_name
+
 
 class PastQS(models.QuerySet):
 
@@ -18,10 +20,11 @@ class PastQS(models.QuerySet):
         wins = stats.get('wins__sum')
         losses = stats.get('losses__sum')
         pf = self.filter(owner=player).values('year', 'points_for')
-        year_scores = {v['year']:v['points_for'] for v in pf}
+        year_scores = {v['year']: v['points_for'] for v in pf}
         pa = self.filter(owner=player).values('year', 'points_against')
-        year_scores_ag = {v['year']:v['points_against'] for v in pa}
-        obj = {'wins': wins, 'losses': losses, 'avg_place':place, 'points_for_yr':year_scores, 'points_ag_yr':year_scores_ag}
+        year_scores_ag = {v['year']: v['points_against'] for v in pa}
+        obj = {'wins': wins, 'losses': losses, 'avg_place': place,
+               'points_for_yr': year_scores, 'points_ag_yr': year_scores_ag}
         return obj
 
     def league_points(self):
@@ -48,7 +51,6 @@ class PastSeasons(models.Model):
     objects = models.Manager()
     stats = PastQS.as_manager()
 
-
     def __str__(self):
         return str(self.year)
 
@@ -56,11 +58,12 @@ class PastSeasons(models.Model):
 class CurrentSeasonCustom(models.QuerySet):
 
     def week_avg(self, gw):
-        return self.filter(year=2019, game_week=gw).aggregate(Avg('points_for'))
+        return self.filter(year=2020, game_week=gw).aggregate(Avg('points_for'))
 
     def week_avg_list(self):
         output = []
-        weeks = self.filter(year=2019).values_list('game_week', flat=True).distinct()
+        weeks = self.filter(year=2020).values_list(
+            'game_week', flat=True).distinct()
         for w in weeks:
             num = self.week_avg(w)
             score = num.get('points_for__avg')
@@ -69,7 +72,7 @@ class CurrentSeasonCustom(models.QuerySet):
 
     def late_season(self):
         output = []
-        scores = self.filter(year=2019, game_week__gte=10)
+        scores = self.filter(year=2020, game_week__gte=10)
         players = scores.filter(game_week=12)
         for p in players:
             s = scores.filter(owner=p.owner).aggregate(Sum('points_for'))
@@ -78,17 +81,19 @@ class CurrentSeasonCustom(models.QuerySet):
         output.sort(key=lambda x: x[1])
         return output
 
-
     def full_stats(self):
-        weeks = list(self.filter(year=2019).values_list('game_week', flat=True).distinct())
+        weeks = list(self.filter(year=2020).values_list(
+            'game_week', flat=True).distinct())
         out = []
         for gw in weeks:
-            cur = self.filter(year=2019, game_week=gw)
-            qs = cur.aggregate(Max('points_for'), Min('points_for'), Avg('points_for'), StdDev('points_for'))
+            cur = self.filter(year=2020, game_week=gw)
+            qs = cur.aggregate(Max('points_for'), Min(
+                'points_for'), Avg('points_for'), StdDev('points_for'))
             hi = cur.get(points_for=qs['points_for__max'])
             low = cur.get(points_for=qs['points_for__min'])
             adder = [round(i, 1) for i in qs.values()]
-            adder = [gw] + adder + [hi.owner.player_name, low.owner.player_name]
+            adder = [gw] + adder + \
+                [hi.owner.player_name, low.owner.player_name]
             out.append(adder)
         return out
 
@@ -98,7 +103,7 @@ class CurrentSeason(models.Model):
     game_week = models.IntegerField()
     team_name = models.CharField(max_length=100, unique=False)
     team_abbrev = models.CharField(max_length=100, unique=False)
-    points_for = models.FloatField() # changed from 'poinst', this may cause DB issues
+    points_for = models.FloatField()  # changed from 'poinst', this may cause DB issues
     opponent = models.CharField(max_length=100, unique=False)
     points_against = models.FloatField()
     result = models.IntegerField(default=0)

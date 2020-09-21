@@ -38,7 +38,7 @@ def season(request):
 
 
 def player_page(request, team_abbrev):
-    team = list(CurrentSeason.objects.all().filter(year=2019, team_abbrev=team_abbrev).order_by(
+    team = list(CurrentSeason.objects.all().filter(year=2020, team_abbrev=team_abbrev).order_by(
         'game_week').values_list('points_for', flat=True))
     stats = league_graph_stats()
     hi, lo, avg = stats[0], stats[1], stats[2]
@@ -62,13 +62,15 @@ def past(request):
         pct_d_ag = str(round(dif_ag, 1)) + "%"
         i['pct_d_ag'] = pct_d_ag
 
-    owners = PastSeasons.objects.distinct('owner').values_list('owner', flat=True)
+    owners = PastSeasons.objects.distinct(
+        'owner').values_list('owner', flat=True)
     totals = []
     # add current season wins and losses
 
     for player in owners:
         name = player
-        current = CurrentSeason.objects.filter(year=2019, owner=player, game_week__lte=13)
+        current = CurrentSeason.objects.filter(
+            year=2020, owner=player, game_week__lte=13)
         stats = PastSeasons.stats.player_stats(player)
         szn = list(current.aggregate(Sum('result')).values())[0]
         if type(szn) == int:

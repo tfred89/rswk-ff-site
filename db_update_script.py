@@ -1,14 +1,13 @@
+from ff_espn_api import League
+from django.db.models import Min
+from basic_app.api_functions import get_week
+from basic_app.models import Rankings, CurrentSeason, Player, Skittish
+import django
 import os
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "RSWKsite.settings")
 
-import django
 django.setup()
-
-from basic_app.models import Rankings, CurrentSeason, Player, Skittish
-from basic_app.api_functions import get_week
-from django.db.models import Min
-from ff_espn_api import League
 
 
 def weekly_db_update(week, league, year):
@@ -93,14 +92,14 @@ def update_skittish(week, year):
         low_score = week_scores.aggregate(Min('points_for'))
         the_skitted = week_scores.get(points_for=low_score['points_for__min'])
         get_skit = Skittish.objects.get(player=the_skitted.owner)
-        get_skit.eliminated=True
-        get_skit.elim_score=low_score['points_for__min']
-        get_skit.elim_week=week
+        get_skit.eliminated = True
+        get_skit.elim_score = low_score['points_for__min']
+        get_skit.elim_week = week
         get_skit.save()
 
 
 def weekly_update():
-    year = 2019
+    year = 2020
     league_id = 1406490
     swid = '{CC3929FE-4B90-497B-87D7-6283A951436F}'
     espn_s2 = 'AECMpoZv%2FZF6G9Q1PEU9bnJD2Xf8FJwcFa8voarn81ZyGsMy8BzOpN8M6Wd9dLle3mHCQpW%2F0uQja23BYQagdA9H6tFSbtqGyyg%2BZs3m22Y%2FKNxo7os%2BBNSjX4bKa6UOSBlOph7KwtyMFBe654mVtR4inWzGYrTFVo2RIDk6ueNPFnz%2BDlKaxcQhRniwrEnXhprLfL78Gel1JetARL5lkiqGR2f%2BaPoxq%2Btfb8uj%2BzQAkMEkwJZaoWOUCPfxa7w%2FLa5GVnX5Ca%2F2ZqhFeysjWwOhYflDFnlItB1SKjpWPFtQ2w%3D%3D'
@@ -110,8 +109,9 @@ def weekly_update():
     print("current season model updated")
     add_rankings(league)
     print('rankings updated')
-    update_skittish(week, 2019)
+    update_skittish(week, 2020)
     print('skittish updated')
+
 
 if __name__ == '__main__':
     week = get_week(1)

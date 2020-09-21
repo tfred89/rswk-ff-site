@@ -6,7 +6,8 @@ from .models import CurrentSeason, Rankings, Skittish, Player
 
 
 def get_week(sub=0):
-    start = datetime.datetime(2019, 9, 3, 9, 0, 0, tzinfo=datetime.timezone.utc) # league start date
+    start = datetime.datetime(
+        2020, 9, 10, 9, 0, 0, tzinfo=datetime.timezone.utc)  # league start date
     now = datetime.datetime.now(datetime.timezone.utc)
     week = (now-start).days//7 + 1
     week -= sub
@@ -53,7 +54,7 @@ def get_week(sub=0):
 
 def get_standings():
     gw = get_week() - 1
-    standings = Rankings.objects.filter(year=2019, game_week=gw)
+    standings = Rankings.objects.filter(year=2020, game_week=gw)
     output = []
     for i in standings:
         x = [i.team_name, i.points_for, i.points_against,
@@ -75,12 +76,13 @@ def get_standings():
 
 
 def week_scores():
-    standings = CurrentSeason.objects.filter(year=2019)
+    standings = CurrentSeason.objects.filter(year=2020)
     owners = Player.objects.exclude(player_id=15)
     output = []
     for player in owners:
         scores = standings.filter(owner=player)
-        adder = [scores[0].team_name, list(scores.values_list('points_for', flat=True))]
+        adder = [scores[0].team_name, list(
+            scores.values_list('points_for', flat=True))]
         output.append(adder)
     average = ['Weekly Avg', CurrentSeason.stats.week_avg_list()]
     output.append(average)
@@ -93,7 +95,7 @@ def get_trophies():
     late_szn = CurrentSeason.stats.late_season()[-1]
 
     if gw < 14:
-        scores = CurrentSeason.objects.filter(year=2019).order_by('-point_dif')
+        scores = CurrentSeason.objects.filter(year=2020).order_by('-point_dif')
         margin = scores[0]
         standings = Rankings.objects.filter(game_week=gw)
         bl = scores.filter(result=0).order_by('-points_for')[0]
@@ -103,7 +105,8 @@ def get_trophies():
         big_miss = standings.filter(place__gte=9).order_by('-points_for')[0]
     else:
         standings = Rankings.objects.filter(game_week=13)
-        scores = CurrentSeason.objects.filter(year=2019, game_week__lte=13).order_by('-point_dif')
+        scores = CurrentSeason.objects.filter(
+            year=2020, game_week__lte=13).order_by('-point_dif')
         margin = scores.first()
         bl = scores.filter(result=0).order_by('-points_for').first()
         most_points = standings.order_by('-points_for').first()
@@ -118,7 +121,8 @@ def get_trophies():
         skit_team = 'TBD'
 
     trophies = {
-        'first': ['$375', scores.filter(owner__player_id=6).first().team_name], #after week 14 for places 1-3 based on most points for still in playoffs
+        # after week 14 for places 1-3 based on most points for still in playoffs
+        'first': ['$375', scores.filter(owner__player_id=6).first().team_name],
         'second': ['$100', scores.filter(owner__player_id=9).first().team_name],
         'third': ['$50', scores.filter(owner__player_id=4).first().team_name],
         'season_winner': ['$25', standings.first().team_name],
