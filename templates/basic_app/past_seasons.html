@@ -264,6 +264,50 @@
                 </div>
               </div>
 
+
+              <div class="container-fluid text-center">
+                <div class="row justify-content-center align-items-center">
+                  <div class="col-xl-6">
+                    <div class="table-responsive boxy">
+                      <h2>2019 Season</h2>
+                      <table class="table table-sm table-striped table-hover">
+                        <thead class="thead-light">
+                          <tr>
+                            <th scope="col">Year</th>
+                            <th scope="col">Rank</th>
+                            <th scope="col">Owner</th>
+                            <th scope="col">Wins</th>
+                            <th scope="col">Losses</th>
+                            <th scope="col">Ties</th>
+                            <th scope="col">Points For</th>
+                            <th scope="col">Points Against</th>
+                            <th scope="col">% PF vs League Avg</th>
+                            <th scope="col">% PA vs League Avg</th>
+                          </tr>
+                        </thead>
+                        {% for i in past_szn %}
+                        {% if i.year == 2019 %}
+                        <tbody>
+                          <tr>
+                            <th scope="row">{{ i.year }}</th>
+                            <td>{{ i.place }}</td>
+                            <td>{{i.owner_id}}</td>
+                            <td>{{i.wins}}</td>
+                            <td>{{i.losses}}</td>
+                            <td>{{i.ties}}</td>
+                            <td>{{i.points_for}}</td>
+                            <td>{{i.points_against}}</td>
+                            <td>{{i.pct_d}}</td>
+                            <td>{{i.pct_d_ag}}</td>
+                          </tr>
+                        </tbody>
+                        {% endif %}
+                        {% endfor %}
+                      </table>
+                    </div>
+                  </div>
+                  </div>
+                </div>
         {% endif %}
 
 
