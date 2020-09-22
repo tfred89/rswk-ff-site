@@ -7,7 +7,7 @@ from .models import CurrentSeason, Rankings, Skittish, Player
 
 def get_week(sub=0):
     start = datetime.datetime(
-        2020, 9, 10, 9, 0, 0, tzinfo=datetime.timezone.utc)  # league start date
+        2020, 9, 14, 23, 0, 0, tzinfo=datetime.timezone.utc)  # league start date
     now = datetime.datetime.now(datetime.timezone.utc)
     week = (now-start).days//7 + 1
     week -= sub
@@ -53,7 +53,7 @@ def get_week(sub=0):
 
 
 def get_standings():
-    gw = get_week() - 1
+    gw = get_week()
     standings = Rankings.objects.filter(year=2020, game_week=gw)
     output = []
     for i in standings:
@@ -91,7 +91,7 @@ def week_scores():
 
 def get_trophies():
 
-    gw = get_week(1)
+    gw = get_week()
     # late_szn = CurrentSeason.stats.late_season()[-1]
 
     if gw < 14:
