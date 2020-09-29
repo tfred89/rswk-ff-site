@@ -5,7 +5,7 @@ from basic_app.api_functions import get_standings, week_scores, get_trophies, sk
 
 
 def home(request):
-    week = get_week(1)
+    week = get_week()
     player = week_scores()
     score_dict = get_standings()
     t_and_l = get_trophies()

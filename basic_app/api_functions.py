@@ -85,6 +85,8 @@ def week_scores():
             scores.values_list('points_for', flat=True))]
         output.append(adder)
     average = ['Weekly Avg', CurrentSeason.stats.week_avg_list()]
+
+
     output.append(average)
     return output
 

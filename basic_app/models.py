@@ -67,7 +67,7 @@ class CurrentSeasonCustom(models.QuerySet):
         for w in weeks:
             num = self.week_avg(w)
             score = num.get('points_for__avg')
-            output.append(score)
+            output.append(round(score, 2))
         return output
 
     def late_season(self):

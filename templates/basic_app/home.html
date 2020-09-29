@@ -13,23 +13,8 @@
     Chart.defaults.global.defaultFontColor = 'black';
     Chart.defaults.global.defaultFontSize = 16;
 
-    function calculateWeeksBetween(date1, date2) {
-
-      var ONE_WEEK = 1000 * 60 * 60 * 24 * 7;
-
-      var date1_ms = date1.getTime();
-      var date2_ms = date2.getTime();
-
-      var difference_ms = Math.abs(date1_ms - date2_ms);
-      var weeks = Math.floor(difference_ms / ONE_WEEK);
-      var gw = (weeks <= 13) ? weeks : 13;
-      return gw;
-    };
-    var startDate = new Date(2020, 9, 11);
-    var curDate = new Date();
-    var gweek = calculateWeeksBetween(curDate, startDate);
-
-
+    var gweek = {{week}};
+    console.log(gweek)
     var winWidth = $(window).width();
     var label_length = [];
     for (var i = 1; i <= gweek; i++) {
