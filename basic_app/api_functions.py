@@ -99,6 +99,7 @@ def get_trophies():
     if gw < 14:
         scores = CurrentSeason.objects.filter(year=2020).order_by('-point_dif')
         margin = scores[0]
+        margin_score = f'{round(margin.points_for - margin.points_against, 2)} pt win'
         standings = Rankings.objects.filter(game_week=gw)
         bl = scores.filter(result=0).order_by('-points_for')[0]
         most_points = standings.order_by('-points_for')[0]
@@ -134,7 +135,7 @@ def get_trophies():
         'week10_16': ['$20', 'TBD'],
         'highest_loss': ['$10', bl.team_name, bl.points_for, bl.game_week],
         'high_score': ['$10', big_week.team_name, big_week.points_for, big_week.game_week],
-        'margin': ['$10', margin.team_name, margin.points_for, margin.game_week],
+        'margin': ['$10', margin.team_name, margin_score, margin.game_week],
         'most_against': ['$10', most_against.team_name],
 
     }
