@@ -108,4 +108,37 @@ $(document).ready(function(){
   </div>
 </div>
 
+<div class="container-fluid text-center">
+  <div class="row justify-content-center rowone row-eq-height">
+    <div class="col-lg-7">
+      <div class="table-responsive boxy">
+        <h2>Weekly Performance</h2>
+        <table class="table table-sm table-striped table-hover">
+          <thead class="thead-light">
+            {% if ranks %}
+            <tr>
+              
+              <th scope="col">Points For</th>
+              <th scope="col">Weekly Rank</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in ranks %}
+            <tr>
+              <th scope="row">{{ p.0 }}</th>
+              <td>{{ p.1 }}</td>
+
+            </tr>
+
+            {% endfor %}
+            {% endif %}
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  </div>
+
 {% endblock %}

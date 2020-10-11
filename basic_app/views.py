@@ -38,11 +38,20 @@ def season(request):
 
 
 def player_page(request, team_abbrev):
-    team = list(CurrentSeason.objects.all().filter(year=2020, team_abbrev=team_abbrev).order_by(
-        'game_week').values_list('points_for', flat=True))
+    base_team = CurrentSeason.objects.filter(year=2020)
+    team = []
+    weekly_place = []
+    weeks = list(base_team.values_list('game_week', flat=True).distinct())
+
+    for w in weeks:
+        for idx, obj in enumerate(base_team.filter(game_week=w).order_by('-points_for')):
+            if obj.team_abbrev == team_abbrev:
+                team.append(obj.points_for)
+                weekly_place.append((obj.points_for, idx+1))
+
     stats = league_graph_stats()
     hi, lo, avg = stats[0], stats[1], stats[2]
-    return render(request, 'basic_app/player.html', {'team': team, "hi": hi, 'lo': lo, 'avg': avg})
+    return render(request, 'basic_app/player.html', {'team': team, "hi": hi, 'lo': lo, 'avg': avg, 'ranks':weekly_place})
 
 
 def past(request):
