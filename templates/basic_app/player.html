@@ -98,9 +98,14 @@ $(document).ready(function(){
 {% endblock %}
 </script>
 
+
 {% block body_block %}
+<div style="display: flex; justify-content: center; margin-top: 30px;">
+  <h3>{{player.owner}}</h3>
+</div>
 
 <div class="row justify-content-center rowone row-eq-height past-season-cont">
+  
   <div class="col-lg-7">
     <div class="chart-container flex-fill" style ="position: relative">
     <canvas id="lineChart" style='display:block'></canvas>

@@ -98,14 +98,15 @@ def get_trophies():
 
     if gw < 14:
         scores = CurrentSeason.objects.filter(year=2020).order_by('-point_dif')
-        margin = scores[0]
+        gw = max(list(scores.values_list('game_week', flat=True).distinct()))
+        margin = scores.first()
         margin_score = f'{round(margin.points_for - margin.points_against, 2)} pt win'
         standings = Rankings.objects.filter(game_week=gw)
         bl = scores.filter(result=0).order_by('-points_for')[0]
-        most_points = standings.order_by('-points_for')[0]
-        most_against = standings.order_by('-points_against')[0]
-        big_week = scores.order_by('-points_for')[0]
-        big_miss = standings.filter(place__gte=9).order_by('-points_for')[0]
+        most_points = standings.order_by('-points_for').first()
+        most_against = standings.order_by('-points_against').first()
+        big_week = scores.order_by('-points_for').first()
+        big_miss = standings.filter(place__gte=9).order_by('-points_for').first()
     else:
         standings = Rankings.objects.filter(game_week=13)
         scores = CurrentSeason.objects.filter(

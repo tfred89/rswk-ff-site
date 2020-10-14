@@ -39,6 +39,7 @@ def season(request):
 
 def player_page(request, team_abbrev):
     base_team = CurrentSeason.objects.filter(year=2020)
+    player = base_team.filter(team_abbrev=team_abbrev).first()
     team = []
     weekly_place = []
     weeks = list(base_team.values_list('game_week', flat=True).distinct())
@@ -51,7 +52,7 @@ def player_page(request, team_abbrev):
 
     stats = league_graph_stats()
     hi, lo, avg = stats[0], stats[1], stats[2]
-    return render(request, 'basic_app/player.html', {'team': team, "hi": hi, 'lo': lo, 'avg': avg, 'ranks':weekly_place})
+    return render(request, 'basic_app/player.html', {'player':player, 'team': team, "hi": hi, 'lo': lo, 'avg': avg, 'ranks':weekly_place})
 
 
 def past(request):
