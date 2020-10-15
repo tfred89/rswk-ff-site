@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Avg, Max, Min, StdDev, Sum
+
 
 
 class Player(models.Model):
