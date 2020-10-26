@@ -131,13 +131,13 @@ def get_trophies():
         'third': ['$50', standings[2].team_name],
         'season_winner': ['$25', standings[0].team_name],
         'skittish': ['$40', 'TBD'],
-        'high_points': ['$25', most_points.team_name],
-        'best_miss': ['$25', big_miss.team_name],
+        'high_points': ['$25', most_points.owner.currentseason_set.filter(year=2020).last().team_name],
+        'best_miss': ['$25', big_miss.owner.currentseason_set.filter(year=2020).last().team_name],
         'week10_16': ['$20', 'TBD'],
-        'highest_loss': ['$10', bl.team_name, bl.points_for, bl.game_week],
-        'high_score': ['$10', big_week.team_name, big_week.points_for, big_week.game_week],
-        'margin': ['$10', margin.team_name, margin_score, margin.game_week],
-        'most_against': ['$10', most_against.team_name],
+        'highest_loss': ['$10', bl.owner.currentseason_set.filter(year=2020).last().team_name, bl.points_for, bl.game_week],
+        'high_score': ['$10', big_week.owner.currentseason_set.filter(year=2020).last().team_name, big_week.points_for, big_week.game_week],
+        'margin': ['$10', margin.owner.currentseason_set.filter(year=2020).last().team_name, margin_score, margin.game_week],
+        'most_against': ['$10', most_against.owner.currentseason_set.filter(year=2020).last().team_name],
 
     }
     leaders = {}

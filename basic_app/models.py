@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.db.models import Avg, Max, Min, StdDev, Sum
 
 
 class Player(models.Model):
@@ -126,6 +126,7 @@ class CurrentSeason(models.Model):
 
 # Needed models to eliminate constant espn API calls:
 # Goes with function api_functions.get_standings
+
 
 
 class Rankings(models.Model):
