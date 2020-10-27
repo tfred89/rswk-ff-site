@@ -39,14 +39,14 @@ def season(request):
 
 def player_page(request, team_abbrev):
     base_team = CurrentSeason.objects.filter(year=2020)
-    player = base_team.filter(team_abbrev=team_abbrev).first()
+    player = base_team.filter(team_abbrev=team_abbrev).first().owner
     team = []
     weekly_place = []
     weeks = list(base_team.values_list('game_week', flat=True).distinct())
 
     for w in weeks:
         for idx, obj in enumerate(base_team.filter(game_week=w).order_by('-points_for')):
-            if obj.team_abbrev == team_abbrev:
+            if obj.owner == player:
                 team.append(obj.points_for)
                 weekly_place.append((obj.points_for, idx+1))
 
