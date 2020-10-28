@@ -2,12 +2,54 @@
 {% extends "basic_app/base.html" %}
   {% block body_block %}
   <div class="container-fluid text-center">
+    <div class="row justify-content-center rowone row-eq-height">
+      <div class="col-lg-7">
+        <div class="table-responsive boxy weekly">
+          <h2>Hybrid Standings</h2>
+          <table class="table table-sm table-striped table-hover">
+            <thead class="thead-light">
+              {% if hybrid_table %}
+              <tr>
+                <th scope="col">Team</th>
+                <th scope="col">Wins</th>
+                <th scope="col">Losses</th>
+                <th scope="col">Top 7</th>
+                <th scope="col">Bottom 7</th>
+                <th scope="col">Hybrid Wins</th>
+                <th scope="col">Hybrid Losses</th>
+                <th scope="col">Points For</th>
+                <th scope="col">Points Against</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for p in hybrid_table %}
+              <tr>
+                <td>{{ p.team_name }}</td>
+                <td>{{ p.wins }}</td>
+                <td>{{p.losses}}</td>
+                <td>{{p.top_7}}</td>
+                <td>{{p.bottom_7}}</td>
+                <td>{{p.hybrid_wins}}</td>
+                <td>{{p.hybrid_losses}}</td>
+                <td>{{p.points_for}}</td>
+                <td>{{p.points_against}}</td>
+              </tr>
+
+              {% endfor %}
+              {% endif %}
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
     <div class="row justify-content-center align-items-center">
-             <div class="col-xl-6">
-               <div class="table-responsive boxy weekly">
-               <h3>Weekly Stats</h3>
-               <table class="table table-sm table-striped table-hover">
-                 <thead class="thead-light">
+      <div class="col-xl-6">
+        <div class="table-responsive boxy weekly">
+          <h3>Weekly Stats</h3>
+          <table class="table table-sm table-striped table-hover">
+            <thead class="thead-light">
                    <tr>
 
                      <th scope="col">Game Week</th>
@@ -18,22 +60,29 @@
                      <th scope="col">Average Score</th>
                      <th scope="col">Standard Deviation</th>
                    </tr>
-                 </thead>
-                 {% if stats %}
-                 <tbody>
-                   {% for i in stats %}
-                   <tr>
-                     <td scope="row">{{i.0}}</td>
-                     <td scope="row">{{i.1}}</td>
-                     <td scope="row">{{i.5}}</td>
-                     <td scope="row">{{i.2}}</td>
-                     <td scope="row">{{i.6}}</td>
-                     <td scope="row">{{i.3}}</td>
-                     <td scope="row">{{i.4}}</td>
-                   </tr>
+            </thead>
+              {% if stats %}
+              <tbody>
+                {% for i in stats %}
+                <tr>
+                  <td scope="row">{{i.0}}</td>
+                  <td scope="row">{{i.1}}</td>
+                  <td scope="row">{{i.5}}</td>
+                  <td scope="row">{{i.2}}</td>
+                  <td scope="row">{{i.6}}</td>
+                  <td scope="row">{{i.3}}</td>
+                  <td scope="row">{{i.4}}</td>
+                </tr>
 
                    {% endfor %}
                    {% endif %}
+              </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
 
+
+  </div>
 
   {% endblock %}

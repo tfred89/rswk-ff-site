@@ -235,13 +235,16 @@
         {% block body_block %}
         <div class="jumbotron text-center">
           <div class="container-fluid">
-          <h1>RSWK Fantasy Football</h1>
-          <p>Where our fantasy skills are only exceeded by our dissapointment</p>
+            <h1>RSWK Fantasy Football</h1>
+            <p>Where our fantasy skills are only exceeded by our dissapointment</p>
           </div>
         </div>
 
 
         <div class="container-fluid text-center">
+
+
+
           <div class="row justify-content-center rowone row-eq-height">
             <div class="col-lg-7">
               <div class="table-responsive boxy">
@@ -278,7 +281,50 @@
             </div>
           </div>
 
+          <div class="row justify-content-center rowone row-eq-height">
+            <div class="col-lg-7">
+              <div class="table-responsive boxy">
+                <h2>Week {{n_week}} Matchups</h2>
+                <table class="table table-sm table-striped table-hover">
+                  <thead class="thead-light">
+                    {% if matchups %}
+                    <tr>
+                      <th scope="col">Team 1</th>
+                      <th scope="col">W-L</th>
+                      <th scope="col">Rank</th>
+                      <th scope="col">Avg Score</th>
+                      <th></th>
+                      <th scope="col">Avg Score</th>
+                      <th scope="col">Rank</th>
+                      <th scope="col">W-L</th>
+                      <th scope="col">Team 2</th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for m in matchups %}
+                    <tr>
+                      <td>{{ m.team1.team_name }}</td>
+                      <td>{{ m.team1.wins}} - {{ m.team1.losses}} </td>
+                      <td>{{ m.team1.current_place }}</td>
+                      <td>{{ m.team1.avg_for }}</td>
+                      <td>vs</td>
+                      <td>{{ m.team2.avg_for }}</td>
+                      <td>{{ m.team2.current_place }}</td>
+                      <td>{{ m.team2.wins}} - {{ m.team2.losses}} </td>
+                      <td>{{ m.team2.team_name }}</td>
+                      
+                      
+                    </tr>
 
+                    {% endfor %}
+                    {% endif %}
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
 
           <div class="row justify-content-center rowone row-eq-height">
             <div class="col-lg-7">
@@ -487,13 +533,16 @@
 
           {% endif %}
 
+
+
+
           <div class="row justify-content-center rowone row-eq-height">
             <div class="col-lg-7" align="center">
               <div class="boxy"><h2>The Real Schefty </h2></div>
                 <a class="twitter-timeline" data-height="450px"  href="https://twitter.com/AdamSchefter?ref_src=twsrc%5Etfw">Tweets by AdamSchefter</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
               </div>
             </div>
-          </div>
+        </div>
 
 
   {% endblock %}

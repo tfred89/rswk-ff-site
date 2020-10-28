@@ -1,9 +1,6 @@
 import datetime
 from .models import CurrentSeason, Rankings, Skittish, Player
 
-#
-# standings = league.standings()
-
 
 def get_week(sub=0):
     start = datetime.datetime(
@@ -12,44 +9,6 @@ def get_week(sub=0):
     week = (now-start).days//7 + 1
     week -= sub
     return week
-
-
-# def send_week(league):
-#     return league.nfl_week
-
-
-# def old_margin_and_loss(league):
-#     week = league.nfl_week
-#     obj = {'margin': [0, 0], 'big_loss': [0, 0]}
-#     for i in range(1, week):
-#         bs = league.box_scores(i)
-#         for game in bs:
-#             home_score = game.home_score
-#             away_score = game.away_score
-#             diff = home_score - away_score
-#             if diff > obj['margin'][0]:
-#                 obj['margin'] = [diff, game.home_score,
-#                                  game.home_team.team_name, i]
-#             elif diff < -obj['margin'][0]:
-#                 obj['margin'] = [abs(diff), game.away_score,
-#                                  game.away_team.team_name, i]
-#             if diff > 0 and away_score > obj['big_loss'][0]:
-#                 obj['big_loss'] = [away_score, game.away_team.team_name, i]
-#             elif diff < 0 and home_score > obj['big_loss'][0]:
-#                 obj['big_loss'] = [home_score, game.home_team.team_name, i]
-#     return obj
-#
-#
-# def old_get_standings(league):
-#     standings = league.standings()
-#     output = []
-#     for i in standings:
-#         x = [i.team_name, i.points_for, i.points_against,
-#              i.wins, i.losses, i.standing]
-#         x[1] = "%.2f" % x[1]
-#         x[2] = "%.2f" % x[2]
-#         output.append(x)
-#     return output
 
 
 def get_standings():
@@ -63,16 +22,6 @@ def get_standings():
         x[2] = "%.2f" % x[2]
         output.append(x)
     return output
-
-
-# def old_week_scores(league):
-#     standings = league.standings()
-#     show_weeks = league.nfl_week - 1
-#     output = []
-#     for i in standings:
-#         adder = [i.team_name, i.scores[:show_weeks]]
-#         output.append(adder)
-#     return output
 
 
 def week_scores():
@@ -153,36 +102,6 @@ def get_trophies():
         dollars.append(temp)
     output = {'trophies': trophies, 'dollars': dollars}
     return output
-
-
-# outputs dictionary with key=game week, value =[losing score, team name], along with a list of survivors
-# def old_skittish(league):
-#
-#     week = league.nfl_week
-#     skitted = []
-#     weekly_dict = {}
-#     losers = []
-#
-#     for w in range(1, week):
-#         matchups = league.box_scores(w)
-#         score = {}
-#         for i in matchups:
-#             ht = i.home_team.team_name
-#             hs = i.home_score
-#             if ht not in losers:
-#                 score[ht] = hs
-#             at = i.away_team.team_name
-#             ascore = i.away_score
-#             if at not in losers:
-#                 score[at] = ascore
-#         low_scorer = min(score.keys(), key=(lambda k: score[k]))
-#         losers.append(low_scorer)
-#         skit = [w, score.pop(low_scorer), low_scorer]
-#         skitted.append(skit)
-#         weekly_dict[w] = score
-#     survivors = list(weekly_dict[week - 1].keys())
-#
-#     return [skitted, survivors]
 
 
 def skittish():

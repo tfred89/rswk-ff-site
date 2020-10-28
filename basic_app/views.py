@@ -2,10 +2,13 @@ from django.shortcuts import render
 from django.db.models import Sum
 from basic_app.models import CurrentSeason, PastSeasons
 from basic_app.api_functions import get_standings, week_scores, get_trophies, skittish, get_week, season_stats, league_graph_stats
+from basic_app.league_service import LeagueInfo
+from basic_app.player_services import PlayerInfo
 
 
 def home(request):
     week = get_week()
+    n_week = week + 1
     player = week_scores()
     score_dict = get_standings()
     t_and_l = get_trophies()
@@ -14,14 +17,19 @@ def home(request):
     skit = skittish()
     late_szn = CurrentSeason.stats.late_season()
     late_szn.reverse()
+    rswk = LeagueInfo()
+    matchups = rswk.get_matchups()
+
 
     return render(request, 'basic_app/home.html', {'week_scores': player,
                                                    'Scoreboard': score_dict,
                                                    'trophies': trophies,
                                                    'leaders': dollars,
                                                    'week': week,
+                                                   'n_week':n_week,
                                                    'skittish': skit,
-                                                   'late': late_szn
+                                                   'late': late_szn,
+                                                   'matchups': matchups,
                                                    })
 
 
@@ -34,25 +42,29 @@ def home(request):
 
 def season(request):
     stats = season_stats()
-    return render(request, 'basic_app/season_stats.html', {'stats': stats})
+    rswk = LeagueInfo()
+    hybrid_standings = rswk.get_hybrid_standings()
+    return render(request, 'basic_app/season_stats.html', {'stats': stats, 'hybrid_table': hybrid_standings})
 
 
 def player_page(request, team_abbrev):
-    base_team = CurrentSeason.objects.filter(year=2020)
-    player = base_team.filter(team_abbrev=team_abbrev).first().owner
-    team = []
-    weekly_place = []
-    weeks = list(base_team.values_list('game_week', flat=True).distinct())
-
-    for w in weeks:
-        for idx, obj in enumerate(base_team.filter(game_week=w).order_by('-points_for')):
-            if obj.owner == player:
-                team.append(obj.points_for)
-                weekly_place.append((obj.points_for, idx+1))
+    p = PlayerInfo(abbrev=team_abbrev)
+    p_info = p.info()
+    player = p.owner
+    weekly_place = p_info.get('combined_score_rank')
+    team = p_info.get('weekly_points')
 
     stats = league_graph_stats()
     hi, lo, avg = stats[0], stats[1], stats[2]
-    return render(request, 'basic_app/player.html', {'player':player, 'team': team, "hi": hi, 'lo': lo, 'avg': avg, 'ranks':weekly_place})
+
+    return render(request, 'basic_app/player.html', {
+        'player':player, 
+        'team': team, 
+        "hi": hi, 
+        'lo': lo, 
+        'avg': avg, 
+        'ranks':weekly_place
+        })
 
 
 def past(request):
