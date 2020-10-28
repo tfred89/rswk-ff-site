@@ -8,6 +8,8 @@ Example structure of 'PlayerInfo.info()'
   'current_place': 14,
   'wins': 0,
   'losses': 7,
+  'points_for': 0,
+  'points_against: 0,
   'avg_for': 92.1,
   'avg_against': 124.62,
   'biggest_win': None,
@@ -89,7 +91,7 @@ class PlayerInfo:
         win = list(self.cs.filter(result=1).values_list('point_dif', flat=True))
         win = [abs(i) for i in win]
         if len(win) > 0:
-            score = round(max(win), 2)
+            score = round(min(win), 2)
         else:
             score = None
         self.season_info['closest_win'] = score

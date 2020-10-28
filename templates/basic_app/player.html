@@ -114,9 +114,82 @@ $(document).ready(function(){
 </div>
 
 <div class="container-fluid text-center">
+
   <div class="row justify-content-center rowone row-eq-height">
     <div class="col-lg-7">
-      <div class="table-responsive boxy">
+      <div class="table-responsive boxy weekly">
+        <h2> {{info.team_name}} Season Stats</h2>
+        <table class="table table-sm table-striped table-hover">
+
+          {% if info %}
+          <tbody>
+            <tr>
+              <th scope="row">Average Yearly Finish</th>
+              <td>{{ info.avg_yearly_finish }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Current Place</th>
+              <td>{{ info.current_place }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Wins</th>
+              <td>{{ info.wins }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Losses</th>
+              <td>{{ info.losses }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Avg Points For</th>
+              <td>{{ info.avg_for }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Avg Points Against</th>
+              <td>{{ info.avg_against }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Biggest Win</th>
+              <td>{{ info.biggest_win }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Biggest Loss</th>
+              <td>{{ info.biggest_loss }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Closest Win</th>
+              <td>{{ info.closest_win }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Closest Loss</th>
+              <td>{{ info.closest_loss }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Average Score for Winning Weeks</th>
+              <td>{{ info.avg_winning_score }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Average Score for Losing Weeks</th>
+              <td>{{ info.avg_losing_score }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Weekly Finishes in Top 7</th>
+              <td>{{ info.top_7 }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Average Weekly Finish</th>
+              <td>{{ info.avg_weekly_finish }}</td>
+            </tr>
+
+          </tbody>
+          {% endif %}
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center rowone row-eq-height">
+    <div class="col-lg-7">
+      <div class="table-responsive boxy weekly">
         <h2>Weekly Performance</h2>
         <table class="table table-sm table-striped table-hover">
           <thead class="thead-light">

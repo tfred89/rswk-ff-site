@@ -10,6 +10,7 @@
             <thead class="thead-light">
               {% if hybrid_table %}
               <tr>
+                <th scope="col">Rank</th>
                 <th scope="col">Team</th>
                 <th scope="col">Wins</th>
                 <th scope="col">Losses</th>
@@ -24,6 +25,7 @@
             <tbody>
               {% for p in hybrid_table %}
               <tr>
+                <td>{{ forloop.counter0|add:1 }}</td>
                 <td>{{ p.team_name }}</td>
                 <td>{{ p.wins }}</td>
                 <td>{{p.losses}}</td>

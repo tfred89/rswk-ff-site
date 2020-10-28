@@ -58,7 +58,8 @@ def player_page(request, team_abbrev):
     hi, lo, avg = stats[0], stats[1], stats[2]
 
     return render(request, 'basic_app/player.html', {
-        'player':player, 
+        'player':player,
+        'info': p_info, 
         'team': team, 
         "hi": hi, 
         'lo': lo, 
