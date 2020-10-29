@@ -101,11 +101,10 @@ class PlayerInfo:
         loss = list(self.cs.filter(result=0).values_list('point_dif', flat=True))
         loss = [abs(i) for i in loss]
         if len(loss) > 0:
-            score = max(loss) * -1
+            score = min(loss) * -1
             score = round(score, 2)
         else:
             score = None
-        score = min(loss)
         self.season_info['closest_loss'] = score
         return score
 
