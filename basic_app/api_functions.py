@@ -14,6 +14,9 @@ def get_week(sub=0):
 def get_standings():
     gw = get_week()
     standings = Rankings.objects.filter(year=2020, game_week=gw)
+    if standings.count() == 0:
+        nw = gw - 1
+        standings = Rankings.objects.filter(year=2020, game_week=nw)
     output = []
     for i in standings:
         x = [i.team_name, i.points_for, i.points_against,
